@@ -27,28 +27,45 @@
   
   
   <body>
-    <h1>403(b) Upload File Converter</h1>
+    <section class="container">
+      <div class="container">
+        <div class="container gap-2 col-md-8">
+          <!--Page title-->
+          <div>
+            <h1>403(b) Upload File Converter</h1>
+          </div>
+          
+          <!--Form used to upload file to server and load into SQL-->
+          <div>
+            <form class="row g-3" action="#" th:action="@{/403b}" method="post" th;object="${uploadForm}">
+              <div class="col-md-12">
+                <input type="file" th:field="*{uploadFile}" id="uploadFile" accept=".xlsx,.xls,.csv">
+              </div>
+              <div class="col-md-12">
+                <input type="submit" value="Upload" class="btn btn-outline-success">
+              </div>
+            </form>
+          </div>
 
-    <!--Form used to upload file to server and load into SQL-->
-    <section class="container" name="uploadForm">
+          <!--form used to view reportable terminations and select ones to report-->
+          <div>
 
+          </div>
+
+           <!--
+            Call to create upload form and save reported terminations to database
+            Also clears working tables
+          -->
+          <div>
+
+          </div>
+
+          <div>
+
+          </div>
+        </div>
+      </div>
     </section>
-
-    <!--form used to view reportable terminations and select ones to report-->
-    <section class="container" name="ViewReportableTerminations">
-
-
-    </section>
-
-    <!--
-        Call to create upload form and save reported terminations to database
-        Also clears working tables
-    -->
-    <section class="container" name="ProcessFile">
-
-
-    </section>
-
 
     <!--modal sample to try and use for viewing and updating reportable terminations-->
     <!-- Button trigger modal -->

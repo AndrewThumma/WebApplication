@@ -1,10 +1,10 @@
 package org.cvschools.WebApplication.models;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Builder
 @Data
+@NoArgsConstructor
 public class ImportedEmployeeDTO {
     
     private String staffId;
