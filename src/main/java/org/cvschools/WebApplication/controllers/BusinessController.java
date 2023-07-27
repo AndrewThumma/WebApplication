@@ -1,5 +1,8 @@
 package org.cvschools.WebApplication.controllers;
 
+import java.util.List;
+
+import org.cvschools.WebApplication.models.ExportedEmployeeDTO;
 import org.cvschools.WebApplication.models.UploadForm;
 import org.cvschools.WebApplication.services.ExcelService;
 import org.cvschools.WebApplication.utilities.ExcelHelper;
@@ -52,5 +55,25 @@ public class BusinessController {
         model.addAttribute("error", "Please upload an excel file!");
         model.addAttribute("fileUploaded", fileUploaded);
         return "403b";
+    }
+
+
+    //still needs work to actually create and download the excel file
+    @GetMapping("/403b/download")
+    public String getUploadFile(Model model){
+        try{
+            List<ExportedEmployeeDTO> employees = fileService.getUploadData();
+
+            if(employees.isEmpty()){
+                model.addAttribute("error", "Please upload new data first");
+                return "403b";
+            }
+
+            model.addAttribute("file", employees);
+            return "403b";
+        } catch (Exception e){
+            model.addAttribute("error", e);
+            return "403b";
+        }
     }
 }
