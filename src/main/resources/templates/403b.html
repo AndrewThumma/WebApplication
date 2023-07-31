@@ -16,7 +16,7 @@
             <div class="navbar-nav">
               <a class="nav-link active" aria-current="page" href="#">Home</a>
               <a class="nav-link" href="#">Data Visualzations</a>
-              <a class="nav-link" href="#">Business Processes</a>              
+              <a class="nav-link" href="/403b">Business Processes</a>              
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@
           
           <!--Form used to upload file to server and load into SQL-->
           <div>
-            <form class="row g-3" action="#" th:action="@{/403b}" method="post" th;object="${uploadForm}">
+            <form class="row g-3" action="#" th:action="@{/403b}" method="post" th:object="${uploadForm}">
               <div class="col-md-12">
                 <input type="file" th:field="*{uploadFile}" id="uploadFile" accept=".xlsx,.xls,.csv">
               </div>
