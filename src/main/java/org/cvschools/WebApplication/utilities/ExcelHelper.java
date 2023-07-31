@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.cvschools.WebApplication.models.ImportedEmployeeDTO;
+import org.cvschools.WebApplication.entities.ImportedEmployee;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -33,14 +33,14 @@ public class ExcelHelper {
     return true;
   }
 
-  public static List<ImportedEmployeeDTO> excelToDto(InputStream is) {
+  public static List<ImportedEmployee> excelToDto(InputStream is) {
     try {
       Workbook workbook = new XSSFWorkbook(is);
 
       Sheet sheet = workbook.getSheet(SHEET);
       Iterator<Row> rows = sheet.iterator();
 
-      List<ImportedEmployeeDTO> employees = new ArrayList<ImportedEmployeeDTO>();
+      List<ImportedEmployee> employees = new ArrayList<ImportedEmployee>();
 
       int rowNumber = 0;
       while (rows.hasNext()) {
@@ -54,7 +54,7 @@ public class ExcelHelper {
 
         Iterator<Cell> cellsInRow = currentRow.iterator();
 
-        ImportedEmployeeDTO employee = new ImportedEmployeeDTO();
+        ImportedEmployee employee = new ImportedEmployee();
 
         int cellIdx = 0;
         while (cellsInRow.hasNext()) {

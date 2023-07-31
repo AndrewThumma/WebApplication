@@ -2,6 +2,7 @@ package org.cvschools.WebApplication.controllers;
 
 import java.util.List;
 
+import org.cvschools.WebApplication.entities.ExportEmployee;
 import org.cvschools.WebApplication.models.ExportedEmployeeDTO;
 import org.cvschools.WebApplication.models.UploadForm;
 import org.cvschools.WebApplication.services.ExcelService;
@@ -62,7 +63,7 @@ public class BusinessController {
     @GetMapping("/403b/download")
     public String getUploadFile(Model model){
         try{
-            List<ExportedEmployeeDTO> employees = fileService.getUploadData();
+            List<ExportEmployee> employees = fileService.getUploadData();
 
             if(employees.isEmpty()){
                 model.addAttribute("error", "Please upload new data first");

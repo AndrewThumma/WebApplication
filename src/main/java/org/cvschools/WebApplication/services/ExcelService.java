@@ -13,37 +13,28 @@ import org.cvschools.WebApplication.models.ImportedEmployeeDTO;
 import org.cvschools.WebApplication.repositories.ExportEmployeeRepository;
 import org.cvschools.WebApplication.repositories.ImportedEmployeeRepository;
 import org.cvschools.WebApplication.utilities.ExcelHelper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class ExcelService {
 
-    @Autowired
-    ImportedEmployeeRepository repo;
+    private final ImportedEmployeeRepository repo;
 
-    @Autowired
-    ExportEmployeeRepository exportRepo;
+    private final ExportEmployeeRepository exportRepo;
+    
+    private final ImportedEmployeeMapper mapper;
 
-    @Autowired
-    ImportedEmployeeMapper mapper;
-
-    @Autowired
-    ExportedEmployeeMapper exportMapper;
+    private final ExportedEmployeeMapper exportMapper;
 
     public void save(MultipartFile file){
         try{
-            repo.deleteAll();
-            
-            List<ImportedEmployee> employees = new ArrayList<>();
+            repo.deleteAll();        
 
-            List<ImportedEmployeeDTO> dtoEmployees = ExcelHelper.excelToDto(file.getInputStream());
-
-            for (ImportedEmployeeDTO dto : dtoEmployees) {
-                ImportedEmployee e = mapper.impotedDtoToImported(dto);
-                employees.add(e);
-            }
+            List<ImportedEmployee> employees = ExcelHelper.excelToDto(file.getInputStream());
 
             repo.saveAll(employees);
         } catch (IOException e) {
@@ -51,17 +42,10 @@ public class ExcelService {
         }
     }
 
-    public List<ExportedEmployeeDTO> getUploadData(){
+    public List<ExportEmployee> getUploadData(){
         List<ExportEmployee> employees = exportRepo.findAll();
-
-        List<ExportedEmployeeDTO> dtoEmployees = new ArrayList<>();
         
-        for (ExportEmployee e : employees) {
-            ExportedEmployeeDTO dto = exportMapper.exportedToExportedDto(e);
-            dtoEmployees.add(dto);
-        }
-        
-        return dtoEmployees;
+        return employees;
     }
     
 }
