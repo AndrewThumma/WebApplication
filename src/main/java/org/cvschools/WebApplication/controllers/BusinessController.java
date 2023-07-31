@@ -1,10 +1,14 @@
 package org.cvschools.WebApplication.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.cvschools.WebApplication.entities.ExportEmployee;
+import org.cvschools.WebApplication.entities.ReportableTerminations;
+import org.cvschools.WebApplication.models.ReportableForm;
 import org.cvschools.WebApplication.models.UploadForm;
 import org.cvschools.WebApplication.services.ExcelService;
+import org.cvschools.WebApplication.services.ReportableTerminationsService;
 import org.cvschools.WebApplication.utilities.ExcelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class BusinessController {
@@ -19,19 +24,26 @@ public class BusinessController {
     @Autowired
     ExcelService fileService;
 
+    @Autowired
+    ReportableTerminationsService reportableService;
+
     public Boolean fileUploaded;
+    public Boolean downloadFileReady;
 
     @GetMapping("/403b")
-    public String get403b(Model model){
-        fileUploaded = false;
+    public String get403b(Model model, @RequestParam(required = false) Boolean fileUploaded,
+                            @RequestParam(required = false) Boolean downloadFileReady){                        
 
         model.addAttribute("uploadForm", new UploadForm());
         model.addAttribute("fileUploaded", fileUploaded);
+        model.addAttribute("downloadFileReady", downloadFileReady);
         return "403b";
     }
 
     @PostMapping("/403b")
     public String post403b(Model model, @ModelAttribute UploadForm uploadForm){
+        
+        
         //check to verify that file is an excel file
         if (ExcelHelper.hasExcelFormat(uploadForm.getUploadFile())){
             
@@ -39,22 +51,28 @@ public class BusinessController {
             try{
                 fileService.save(uploadForm.getUploadFile());
                 fileUploaded = true;
+                downloadFileReady = false;
                 
                 model.addAttribute("fileUploaded", fileUploaded);
+                model.addAttribute("downloadFileReady", downloadFileReady);
                 return "403b";
             } catch (Exception e) {
                 fileUploaded = false;
+                downloadFileReady = false;
                 
                 model.addAttribute("error", "Could Not Upload the File");
                 model.addAttribute("fileUploaded", fileUploaded);
+                model.addAttribute("downloadFileReady", downloadFileReady);
                 return "403b";
             }            
         }
         
         //if not an excel file return error
         fileUploaded = false;
+        downloadFileReady = false;
         model.addAttribute("error", "Please upload an excel file!");
         model.addAttribute("fileUploaded", fileUploaded);
+        model.addAttribute("downloadFileReady", downloadFileReady);
         return "403b";
     }
 
@@ -71,10 +89,49 @@ public class BusinessController {
             }
 
             model.addAttribute("file", employees);
+
+            //call options to cleanup
             return "403b";
         } catch (Exception e){
             model.addAttribute("error", e);
             return "403b";
         }
+    }
+
+    
+    /*
+     * mappings for reportable terminations
+     */
+    
+    @GetMapping("/ReportableTerminations")
+    public String getReportableTerminations(Model model){
+        reportableService.clearReportableTerminations();
+
+        reportableService.createReportableTerminations();
+        
+        List<ReportableTerminations> reportable = reportableService.getReportableTerminations();
+
+        model.addAttribute("reportableTerminations", reportable);
+
+        return "ReportableTerminations";
+    }
+
+
+    @PostMapping("ReportableTerminations")
+    public String updateReprotableTerminations(Model model, @ModelAttribute ReportableForm form){        
+        fileUploaded = true;
+
+        reportableService.updateReportableTerminations(form.reportableTerminations);
+        
+        
+        //code to create uploadFile
+        
+        downloadFileReady = true;
+
+
+        model.addAttribute("fileUploaded", fileUploaded);
+        model.addAttribute("downloadFileReady", downloadFileReady);
+
+        return "403b";
     }
 }

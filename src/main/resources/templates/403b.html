@@ -36,9 +36,10 @@
           </div>
           
           <!--Form used to upload file to server and load into SQL-->
-          <div>
+          <div class="card">
             <form class="row g-3" action="#" th:action="@{/403b}" method="post" th:object="${uploadForm}">
               <div class="col-md-12">
+                <img th:src="" id="uploadCheckMark" th:if="${fileUploaded=='true'}">
                 <input type="file" th:field="*{uploadFile}" id="uploadFile" accept=".xlsx,.xls,.csv">
               </div>
               <div class="col-md-12">
@@ -48,16 +49,16 @@
           </div>
 
           <!--form used to view reportable terminations and select ones to report-->
-          <div>
-
+          <div class="card" th:if="${fileUploaded=='true'}">
+            <button class="btn btn-outline-success" th:action="@{/ReportableTerminations}"></button>
           </div>
 
            <!--
             Call to create upload form and save reported terminations to database
             Also clears working tables
           -->
-          <div>
-
+          <div class="card" th:if="${downloadFileReady=='true'}">
+            
           </div>
 
           <div>
@@ -67,12 +68,15 @@
       </div>
     </section>
 
+
+    
     <!--modal sample to try and use for viewing and updating reportable terminations-->
     <!-- Button trigger modal -->
+    <!--
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
       Launch demo modal
     </button>
-
+    -->
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -90,9 +94,15 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>  
 
 
+    <!--script to show/hide checkmarks-->
+    <script>
+      function uploadCheck() {
+        document.getElementById('uploadCheckMark').style.visibility = 'visible';
+      }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   </body>
