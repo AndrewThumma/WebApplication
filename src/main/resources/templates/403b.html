@@ -29,35 +29,46 @@
   <body>
     <section class="container">
       <div class="container">
-        <div class="container gap-2 col-md-8">
+        <div class="container gap-4 col-md-4">
           <!--Page title-->
           <div>
-            <h1>403(b) Upload File Converter</h1>
+            <h1 class="text-center">403(b) Upload File Converter</h1>
           </div>
           
           <!--Form used to upload file to server and load into SQL-->
-          <div class="card">
+          <div class="card mb-2 p-2">
             <form class="row g-3" action="#" th:action="@{/403b}" method="post" th:object="${uploadForm}">
               <div class="col-md-12">
                 <img th:src="" id="uploadCheckMark" th:if="${fileUploaded=='true'}">
                 <input type="file" th:field="*{uploadFile}" id="uploadFile" accept=".xlsx,.xls,.csv">
               </div>
               <div class="col-md-12">
-                <input type="submit" value="Upload" class="btn btn-outline-success">
+                <input type="submit" value="Upload" class="btn btn-outline-success col-md-12">
               </div>
             </form>
           </div>
 
           <!--form used to view reportable terminations and select ones to report-->
-          <div class="card" th:if="${fileUploaded=='true'}">
-            <button class="btn btn-outline-success" th:action="@{/ReportableTerminations}"></button>
+          <!--th:if="${fileUploaded=='true'}"-->
+          <div class="card mb-2 p-2">
+            <div>
+              <form th:action="@{/ReportableTerminations}" method="get">
+                <input type="submit" value="Select Terminations to Report" class="btn btn-outline-success col-md-12">
+              </form>              
+            </div>            
           </div>
 
            <!--
             Call to create upload form and save reported terminations to database
             Also clears working tables
           -->
-          <div class="card" th:if="${downloadFileReady=='true'}">
+          <!--th:if="${downloadFileReady=='true'}"-->
+          <div class="card mb-2 p-2">
+            <div>
+              <form th:action="@{/403b/download}" method="get">
+                <input type="submit" value="Process and Download File" class="btn btn-outline-success col-md-12">
+              </form>               
+            </div>
             
           </div>
 

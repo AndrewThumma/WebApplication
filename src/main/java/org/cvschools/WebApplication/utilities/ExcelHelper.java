@@ -21,8 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ExcelHelper {
   public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-  static String[] HEADERs = { "StaffId", "Title", "Description", "Published" }; //replace with actual file headers
-  static String SHEET = "Sheet1"; //verify sheet name
+  static String[] HEADERs = { "403b Loan", "Staff Social Security Number", "Staff Id", "Last Name", "First Name", "Middle Initial", "Birth Date", "Hire Date", 
+                              "Termination Date", "Email", "Phone Number", "Address1", "Address2", "City", "State", "Zip" };
+  static String SHEET = "403bFile"; //verify sheet name
 
   public static boolean hasExcelFormat(MultipartFile file) {
 
@@ -62,7 +63,7 @@ public class ExcelHelper {
 
             //set fields based on cell values
             switch (cellIdx) {
-            case 0:
+            case 2:
                 employee.setStaffId(currentCell.getStringCellValue());            
                 break;
 
@@ -70,55 +71,55 @@ public class ExcelHelper {
                 employee.setSsn(currentCell.getStringCellValue());            
                 break;
 
-            case 2:
+            case 3:
                 employee.setLastName(currentCell.getStringCellValue());            
                 break;
 
-            case 3:
+            case 4:
                 employee.setFirstName(currentCell.getStringCellValue());            
                 break;
 
-            case 4:
+            case 5:
                 employee.setMiddleInitial(currentCell.getStringCellValue());            
                 break;
 
-            case 5:
+            case 6:
                 employee.setBirthDate(currentCell.getStringCellValue());            
                 break;
 
-            case 6:
+            case 7:
                 employee.setHireDate(currentCell.getStringCellValue());            
                 break;
 
-            case 7:
+            case 8:
                 employee.setTerminationDate(currentCell.getStringCellValue());            
                 break;
 
-            case 8:
+            case 9:
                 employee.setEmail(currentCell.getStringCellValue());            
                 break;
 
-            case 9:
+            case 10:
                 employee.setPhoneNumber(currentCell.getStringCellValue());            
                 break;
 
-            case 10:
+            case 11:
                 employee.setAddress1(currentCell.getStringCellValue());            
                 break;
 
-            case 11:
+            case 12:
                 employee.setAddress2(currentCell.getStringCellValue());            
                 break;
 
-            case 12:
+            case 13:
                 employee.setCity(currentCell.getStringCellValue());            
                 break;
 
-            case 13:
+            case 14:
                 employee.setState(currentCell.getStringCellValue());            
                 break;
 
-            case 14:
+            case 15:
                 employee.setZip(currentCell.getStringCellValue());            
                 break;
 

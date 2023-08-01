@@ -1,6 +1,5 @@
 package org.cvschools.WebApplication.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.cvschools.WebApplication.entities.ExportEmployee;
@@ -8,7 +7,7 @@ import org.cvschools.WebApplication.entities.ReportableTerminations;
 import org.cvschools.WebApplication.models.ReportableForm;
 import org.cvschools.WebApplication.models.UploadForm;
 import org.cvschools.WebApplication.services.ExcelService;
-import org.cvschools.WebApplication.services.ReportableTerminationsService;
+import org.cvschools.WebApplication.services.BuisinessService;
 import org.cvschools.WebApplication.utilities.ExcelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,11 +24,15 @@ public class BusinessController {
     ExcelService fileService;
 
     @Autowired
-    ReportableTerminationsService reportableService;
+    BuisinessService service;
 
     public Boolean fileUploaded;
     public Boolean downloadFileReady;
 
+
+    /*
+     * mappings for main 403(b) page
+     */
     @GetMapping("/403b")
     public String get403b(Model model, @RequestParam(required = false) Boolean fileUploaded,
                             @RequestParam(required = false) Boolean downloadFileReady){                        
@@ -52,6 +55,8 @@ public class BusinessController {
                 fileService.save(uploadForm.getUploadFile());
                 fileUploaded = true;
                 downloadFileReady = false;
+
+                service.createReportableTerminations();
                 
                 model.addAttribute("fileUploaded", fileUploaded);
                 model.addAttribute("downloadFileReady", downloadFileReady);
@@ -81,6 +86,8 @@ public class BusinessController {
     @GetMapping("/403b/download")
     public String getUploadFile(Model model){
         try{
+            service.createUploadTable();
+
             List<ExportEmployee> employees = fileService.getUploadData();
 
             if(employees.isEmpty()){
@@ -91,6 +98,10 @@ public class BusinessController {
             model.addAttribute("file", employees);
 
             //call options to cleanup
+            service.updateReportedTerminations();
+            service.clearReportableTerminations();
+            service.clearActiveStaff();
+            service.clearImportedData();
             return "403b";
         } catch (Exception e){
             model.addAttribute("error", e);
@@ -104,12 +115,9 @@ public class BusinessController {
      */
     
     @GetMapping("/ReportableTerminations")
-    public String getReportableTerminations(Model model){
-        reportableService.clearReportableTerminations();
-
-        reportableService.createReportableTerminations();
-        
-        List<ReportableTerminations> reportable = reportableService.getReportableTerminations();
+    public String getReportableTerminations(Model model){                       
+        //get list of reportable terminations
+        List<ReportableTerminations> reportable = service.getReportableTerminations();
 
         model.addAttribute("reportableTerminations", reportable);
 
@@ -119,13 +127,15 @@ public class BusinessController {
 
     @PostMapping("ReportableTerminations")
     public String updateReprotableTerminations(Model model, @ModelAttribute ReportableForm form){        
+        //set fileUploaded to true
         fileUploaded = true;
 
-        reportableService.updateReportableTerminations(form.reportableTerminations);
-        
-        
+        //update reportable terminations
+        service.updateReportableTerminations(form.reportableTerminations);
+                
         //code to create uploadFile
         
+        //set downloadFileReady to true
         downloadFileReady = true;
 
 

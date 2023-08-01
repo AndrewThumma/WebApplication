@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.cvschools.WebApplication.entities.ReportableTerminations;
 
-public interface ReportableTerminationsService {
+public interface BuisinessService {
 
     List<ReportableTerminations> getReportableTerminations();
 
@@ -12,6 +12,14 @@ public interface ReportableTerminationsService {
 
     void clearReportableTerminations();
 
+    void clearActiveStaff();
+
+    void clearImportedData();
+
     void createReportableTerminations();
+
+    void createUploadTable();
+
+    void updateReportedTerminations();
     
 }
