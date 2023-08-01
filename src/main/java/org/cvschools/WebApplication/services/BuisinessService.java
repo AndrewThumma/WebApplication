@@ -16,6 +16,8 @@ public interface BuisinessService {
 
     void clearImportedData();
 
+    void clearExportData();
+
     void createReportableTerminations();
 
     void createUploadTable();

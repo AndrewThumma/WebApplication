@@ -9,7 +9,6 @@ import org.cvschools.WebApplication.repositories.ActiveStaffRepository;
 import org.cvschools.WebApplication.repositories.ExportEmployeeRepository;
 import org.cvschools.WebApplication.repositories.ImportedEmployeeRepository;
 import org.cvschools.WebApplication.repositories.ReportableTerminationsRepository;
-import org.cvschools.WebApplication.repositories.ReportedTerminationsRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -22,8 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class BuisinessServiceImpl implements BuisinessService{
 
     //repositories
-    private final ReportableTerminationsRepository repo;
-    private final ReportedTerminationsRepository reportedRepo;
+    private final ReportableTerminationsRepository repo;    
     private final ExportEmployeeRepository exportRepo;
     private final ImportedEmployeeRepository importedRep;
     private final ActiveStaffRepository activeRepo;
@@ -108,6 +106,11 @@ public class BuisinessServiceImpl implements BuisinessService{
     @Override
     public void clearImportedData() {
         importedRep.deleteAll();
+    }
+
+    @Override
+    public void clearExportData() {
+        exportRepo.deleteAll();
     }
     
 }
