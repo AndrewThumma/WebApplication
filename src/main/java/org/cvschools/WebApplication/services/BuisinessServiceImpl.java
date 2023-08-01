@@ -5,7 +5,9 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.cvschools.WebApplication.entities.ReportableTerminations;
+import org.cvschools.WebApplication.repositories.ActiveStaffRepository;
 import org.cvschools.WebApplication.repositories.ExportEmployeeRepository;
+import org.cvschools.WebApplication.repositories.ImportedEmployeeRepository;
 import org.cvschools.WebApplication.repositories.ReportableTerminationsRepository;
 import org.cvschools.WebApplication.repositories.ReportedTerminationsRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +25,8 @@ public class BuisinessServiceImpl implements BuisinessService{
     private final ReportableTerminationsRepository repo;
     private final ReportedTerminationsRepository reportedRepo;
     private final ExportEmployeeRepository exportRepo;
+    private final ImportedEmployeeRepository importedRep;
+    private final ActiveStaffRepository activeRepo;
 
     //values for datasource
     @Value("${spring.datasource.driver-class-name}")
@@ -98,14 +102,12 @@ public class BuisinessServiceImpl implements BuisinessService{
 
     @Override
     public void clearActiveStaff() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clearActiveStaff'");
+        activeRepo.deleteAll();
     }
 
     @Override
     public void clearImportedData() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clearImportedData'");
+        importedRep.deleteAll();
     }
     
 }
