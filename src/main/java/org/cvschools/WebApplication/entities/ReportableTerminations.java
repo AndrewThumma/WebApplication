@@ -64,4 +64,7 @@ public class ReportableTerminations {
 
     @Column(length = 255, columnDefinition = "nvarchar(255)", nullable = true, name = "zip")
     private String zip;
+
+    @Column(columnDefinition = "bit", nullable = true, name="reportTermination")
+    private Boolean reportTermination;
 }

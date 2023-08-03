@@ -29,8 +29,48 @@
   <body>
     <h1>Reportable Terminations</h1>
 
-
-
+    <form th:object="${reportableTerminations}" th:action="@{/ReportableTerminations}" action="#" method="post">
+      <table>
+        <tr>
+          <th>Staff Social Security Number</th>
+          <th>Staff ID</th>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Middle Initial</th>
+          <th>Birth Date</th>
+          <th>Hire Date</th>
+          <th>Termination Date</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Address1</th>
+          <th>Address2</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip</th>
+          <th>Report Termination</th>
+        </tr>
+        <div th:each="employee : ${reportableTerminations}">
+          <tr>
+            <td><input type="text" th:value="${reportableTerminations.ssn}"></td>
+            <td><input type="text" th:value="${reportableTerminations.staffId}"></td>
+            <td><input type="text" th:value="${reportableTerminations.lastName}"></td>
+            <td><input type="text" th:value="${reportableTerminations.firstName}"></td>
+            <td><input type="text" th:value="${reportableTerminations.middleInitial}"></td>
+            <td><input type="text" th:value="${reportableTerminations.birthDate}"></td>
+            <td><input type="text" th:value="${reportableTerminations.hireDate}"></td>
+            <td><input type="text" th:value="${reportableTerminations.terminationDate}"></td>
+            <td><input type="text" th:value="${reportableTerminations.email}"></td>
+            <td><input type="text" th:value="${reportableTerminations.phoneNumber}"></td>
+            <td><input type="text" th:value="${reportableTerminations.address1}"></td>
+            <td><input type="text" th:value="${reportableTerminations.address2}"></td>
+            <td><input type="text" th:value="${reportableTerminations.city}"></td>
+            <td><input type="text" th:value="${reportableTerminations.State}"></td>
+            <td><input type="text" th:value="${reportableTerminations.zip}"></td>
+            <td><input type="checkbox" th:value="${reportableTerminations.reportTermination}"></td>
+          </tr>
+        </div>
+      </table>
+    </form>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>

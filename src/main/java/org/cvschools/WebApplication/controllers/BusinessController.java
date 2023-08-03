@@ -37,6 +37,8 @@ public class BusinessController {
     public String get403b(Model model, @RequestParam(required = false) Boolean fileUploaded,
                             @RequestParam(required = false) Boolean downloadFileReady){                        
 
+        //check for values in fileUploaded and downloadFileReady
+        
         model.addAttribute("uploadForm", new UploadForm());
         model.addAttribute("fileUploaded", fileUploaded);
         model.addAttribute("downloadFileReady", downloadFileReady);
@@ -52,6 +54,7 @@ public class BusinessController {
             
             //if excel file attempt to save
             try{
+                service.clearImportedData();
                 fileService.save(uploadForm.getUploadFile());
                 fileUploaded = true;
                 downloadFileReady = false;

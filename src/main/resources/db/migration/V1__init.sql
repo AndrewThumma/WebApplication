@@ -1,5 +1,5 @@
 drop table if exists [403b].ActiveStaff;
-drop table if exists [403b].imported_data;
+drop table if exists [403b].importedData;
 drop table if exists [403b].ReportableTerminations;
 drop table if exists [403b].ReportedTerminations;
 drop table if exists [403b].UploadFile;
@@ -23,7 +23,7 @@ CREATE TABLE [403b].[ActiveStaff](
 	[reportTermination] [bit] NULL
 )
 
-CREATE TABLE [403b].[imported_data](
+CREATE TABLE [403b].[importedData](
 	[StaffID] [nvarchar](255) NOT NULL,
 	[SSN] [nvarchar](255) NULL,
 	[lastName] [nvarchar](255) NULL,
