@@ -23,7 +23,7 @@ CREATE TABLE [403b].[ActiveStaff](
 	[reportTermination] [bit] NULL
 )
 
-CREATE TABLE [403b].[importedData](
+CREATE TABLE [403b].[ImportedData](
 	[StaffID] [nvarchar](255) NOT NULL,
 	[SSN] [nvarchar](255) NULL,
 	[lastName] [nvarchar](255) NULL,
