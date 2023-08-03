@@ -127,6 +127,7 @@ public class BusinessController {
         //get list of reportable terminations
         List<ReportableTerminations> reportable = service.getReportableTerminations();
 
+        model.addAttribute("form", new ReportableForm());
         model.addAttribute("reportableTerminations", reportable);
 
         return "ReportableTerminations";
