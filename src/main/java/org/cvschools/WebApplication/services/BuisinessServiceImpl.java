@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.cvschools.WebApplication.entities.ImportedEmployee;
 import org.cvschools.WebApplication.entities.ReportableTerminations;
 import org.cvschools.WebApplication.repositories.ActiveStaffRepository;
 import org.cvschools.WebApplication.repositories.ExportEmployeeRepository;
@@ -19,11 +20,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class BuisinessServiceImpl implements BuisinessService{
-
+    
     //repositories
-    private final ReportableTerminationsRepository repo;    
+    private final ReportableTerminationsRepository reportableRepo;    
     private final ExportEmployeeRepository exportRepo;
-    private final ImportedEmployeeRepository importedRep;
+    private final ImportedEmployeeRepository importedRepo;
     private final ActiveStaffRepository activeRepo;
 
     //values for datasource
@@ -42,28 +43,29 @@ public class BuisinessServiceImpl implements BuisinessService{
 
     @Override
     public List<ReportableTerminations> getReportableTerminations() {
-        return repo.findAll();
+        return reportableRepo.findAll();
     }
 
     @Override
     public void updateReportableTerminations(List<ReportableTerminations> reportable) {
-        repo.deleteAll();
-        repo.saveAll(reportable);
+        reportableRepo.deleteAll();
+        reportableRepo.saveAll(reportable);
     }
 
     @Override
     public void clearReportableTerminations() {
-        repo.deleteAll();
+        reportableRepo.deleteAll();
     }
 
     // method to run stored procedure uspUpdateWorkingTables
     @Override
-    public void createReportableTerminations() {        
+    public void createReportableTerminations() {                              
         //create data source for use with                
         DataSource ds = createDataSource();
-        
-        SimpleJdbcCall call = new SimpleJdbcCall(ds).withProcedureName("[403b].[uspUpdateWorkingTables]");
-        call.execute();        
+               
+        SimpleJdbcCall call = new SimpleJdbcCall(ds);
+        call.withProcedureName("uspUpdateWorkingTables").execute();        
+        System.out.println("stored procedure uspUpdateWorkingTables Called");        
     }
 
     //support function for building datasource
@@ -83,8 +85,8 @@ public class BuisinessServiceImpl implements BuisinessService{
         DataSource ds = createDataSource();
 
         //call stored procedure
-        SimpleJdbcCall call = new SimpleJdbcCall(ds).withProcedureName("[403b].[uspCreateUploadTable]");
-        call.execute();
+        SimpleJdbcCall call = new SimpleJdbcCall(ds);
+        call.withProcedureName("uspCreateUploadTable").execute();   
     }
 
     // method to run stored procedure uspUpdateReportedTerminations
@@ -94,8 +96,8 @@ public class BuisinessServiceImpl implements BuisinessService{
         DataSource ds = createDataSource();
 
         //call stored procedure
-        SimpleJdbcCall call = new SimpleJdbcCall(ds).withProcedureName("[403b].[uspUpdateReportedTerminations]");
-        call.execute();
+        SimpleJdbcCall call = new SimpleJdbcCall(ds);
+        call.withProcedureName("uspUpdateReportedTerminations").execute();
     }
 
     @Override
@@ -105,7 +107,7 @@ public class BuisinessServiceImpl implements BuisinessService{
 
     @Override
     public void clearImportedData() {
-        importedRep.deleteAll();
+        importedRepo.deleteAll();
     }
 
     @Override

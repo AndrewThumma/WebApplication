@@ -31,7 +31,7 @@
 
     <form th:object="${reportableTerminations}" th:action="@{/ReportableTerminations}" action="#" method="post">
       <div class="table-responsive">
-        <table class="table table-striped">                  
+        <table class="table table-sm table-striped table-hover">                  
           <tr class="table-dark">
             <th>Staff Social Security Number</th>
             <th>Staff ID</th>
@@ -52,26 +52,27 @@
           </tr>                 
           <div th:each="employee : ${reportableTerminations}">
             <tr>
-              <td><input type="text" th:value="${reportableTerminations.ssn}"></td>
-              <td><input type="text" th:value="${reportableTerminations.staffId}"></td>
-              <td><input type="text" th:value="${reportableTerminations.lastName}"></td>
-              <td><input type="text" th:value="${reportableTerminations.firstName}"></td>
-              <td><input type="text" th:value="${reportableTerminations.middleInitial}"></td>
-              <td><input type="text" th:value="${reportableTerminations.birthDate}"></td>
-              <td><input type="text" th:value="${reportableTerminations.hireDate}"></td>
-              <td><input type="text" th:value="${reportableTerminations.terminationDate}"></td>
-              <td><input type="text" th:value="${reportableTerminations.email}"></td>
-              <td><input type="text" th:value="${reportableTerminations.phoneNumber}"></td>
-              <td><input type="text" th:value="${reportableTerminations.address1}"></td>
-              <td><input type="text" th:value="${reportableTerminations.address2}"></td>
-              <td><input type="text" th:value="${reportableTerminations.city}"></td>
-              <td><input type="text" th:value="${reportableTerminations.State}"></td>
-              <td><input type="text" th:value="${reportableTerminations.zip}"></td>
-              <td><input type="checkbox" th:value="${reportableTerminations.reportTermination}"></td>
+              <td><span th:text="${employee.ssn}" th:value="${employee.ssn}"></span></td>
+              <td><span th:text="${employee.StaffId}" th:value="${employee.StaffId}"></span></td>
+              <td><span th:text="${employee.lastName}" th:value="${employee.lastName}"></span></td>
+              <td><span th:text="${employee.firstName}" th:value="${employee.firstName}"></span></td>
+              <td><span th:text="${employee.middleInitial}" th:value="${employee.middleInitial}"></span></td>
+              <td><span th:text="${employee.birthDate}" th:value="${employee.birthDate}"></span></td>
+              <td><span th:text="${employee.hireDate}" th:value="${employee.hireDate}"></span></td>
+              <td><span th:text="${employee.terminationDate}" th:value="${employee.terminationDate}"></span></td>
+              <td><span th:text="${employee.email}" th:value="${employee.email}"></span></td>
+              <td><span th:text="${employee.phoneNumber}" th:value="${employee.phoneNumber}"></span></td>
+              <td><span th:text="${employee.address1}" th:value="${employee.address1}"></td>
+              <td><span th:text="${employee.address2}" th:value="${employee.address2}"></td>
+              <td><span th:text="${employee.city}" th:value="${employee.city}"></span></td>
+              <td><span th:text="${employee.State}" th:value="${employee.State}"></span></td>
+              <td><span th:text="${employee.zip}" th:value="${employee.zip}"></span></td>
+              <td><input type="checkbox" th:value="${employee.reportTermination}"></td>
             </tr>
           </div>
         </table>
-      </div>      
+      </div>
+      <input type="submit" class="btn btn-outline-success">
     </form>
 
 

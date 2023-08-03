@@ -54,7 +54,12 @@ public class BusinessController {
             
             //if excel file attempt to save
             try{
+                //clear any current data for clean slate
                 service.clearImportedData();
+                service.clearActiveStaff();
+                service.clearReportableTerminations();
+                service.clearExportData();
+
                 fileService.save(uploadForm.getUploadFile());
                 fileUploaded = true;
                 downloadFileReady = false;
@@ -137,6 +142,7 @@ public class BusinessController {
         service.updateReportableTerminations(form.reportableTerminations);
                 
         //code to create uploadFile
+        service.createUploadTable();
         
         //set downloadFileReady to true
         downloadFileReady = true;
