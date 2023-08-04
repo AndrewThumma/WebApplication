@@ -39,8 +39,7 @@
           <!--Form used to upload file to server and load into SQL-->
           <div class="card mb-2 p-2" th:if="${fileUploaded == false}">
             <form class="row g-3" action="#" th:action="@{/403b}" method="post" th:object="${uploadForm}" enctype="multipart/form-data">
-              <div class="col-md-12">
-                <img th:src="" id="uploadCheckMark" th:if="${fileUploaded=='true'}">
+              <div class="col-md-12">                
                 <input type="file" th:field="*{uploadFile}" id="uploadFile" accept=".xlsx,.xls,.csv">
               </div>
               <div class="col-md-12">
@@ -82,7 +81,13 @@
             
           </div>
 
-          <div>
+          <!--Reset-->
+          <div class="card mb-2 p-2">
+            <div>
+              <form th:action="@{/403b/clear}" method="get">
+                <input type="submit" value="Reset" class="btn btn-danger">
+              </form>
+            </div>
 
           </div>
         </div>

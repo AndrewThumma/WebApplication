@@ -203,5 +203,22 @@ public class BusinessController {
             return "403b";
         }
     }
-    
+
+    /*
+     * mapping to reset all
+     */
+    @GetMapping("/403b/clear")
+    public String reset(Model model){
+        fileUploaded = false;
+
+        service.clearActiveStaff();
+        service.clearExportData();
+        service.clearImportedData();
+        service.clearReportableTerminations();
+
+        model.addAttribute("uploadForm", new UploadForm());
+        model.addAttribute("fileUploaded", fileUploaded);
+
+        return "403b";
+    }
 }
