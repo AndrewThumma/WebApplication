@@ -4,12 +4,13 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.cvschools.WebApplication.entities.ImportedEmployee;
 import org.cvschools.WebApplication.entities.ReportableTerminations;
+import org.cvschools.WebApplication.entities.ReportedTerminations;
 import org.cvschools.WebApplication.repositories.ActiveStaffRepository;
 import org.cvschools.WebApplication.repositories.ExportEmployeeRepository;
 import org.cvschools.WebApplication.repositories.ImportedEmployeeRepository;
 import org.cvschools.WebApplication.repositories.ReportableTerminationsRepository;
+import org.cvschools.WebApplication.repositories.ReportedTerminationsRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -26,6 +27,7 @@ public class BuisinessServiceImpl implements BuisinessService{
     private final ExportEmployeeRepository exportRepo;
     private final ImportedEmployeeRepository importedRepo;
     private final ActiveStaffRepository activeRepo;
+    private final ReportedTerminationsRepository reportedRepo;
 
     //values for datasource
     @Value("${spring.datasource.driver-class-name}")
@@ -113,6 +115,16 @@ public class BuisinessServiceImpl implements BuisinessService{
     @Override
     public void clearExportData() {
         exportRepo.deleteAll();
+    }
+
+    @Override
+    public List<ReportedTerminations> getReportedTerminations() {
+        return reportedRepo.findAll();
+    }
+
+    @Override
+    public void deleteReportedById(String id) {
+        reportedRepo.deleteById(id);
     }
     
 }

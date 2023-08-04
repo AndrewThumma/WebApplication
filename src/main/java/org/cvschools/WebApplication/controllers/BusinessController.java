@@ -1,10 +1,12 @@
 package org.cvschools.WebApplication.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.cvschools.WebApplication.entities.ExportEmployee;
-import org.cvschools.WebApplication.entities.ReportableTerminations;
+import org.cvschools.WebApplication.entities.ReportedTerminations;
 import org.cvschools.WebApplication.models.ReportableForm;
+import org.cvschools.WebApplication.models.ReportedForm;
 import org.cvschools.WebApplication.models.UploadForm;
 import org.cvschools.WebApplication.services.ExcelService;
 import org.cvschools.WebApplication.services.BuisinessService;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -125,12 +128,10 @@ public class BusinessController {
     @GetMapping("/ReportableTerminations")
     public String getReportableTerminations(Model model){                       
         //get list of reportable terminations                
-
         ReportableForm form = new ReportableForm();
         form.setReportableTerminations(service.getReportableTerminations());
 
-        model.addAttribute("form", form);
-        //model.addAttribute("reportableTerminations", reportable);
+        model.addAttribute("form", form);        
 
         return "ReportableTerminations";
     }
@@ -156,4 +157,29 @@ public class BusinessController {
 
         return "403b";
     }
+
+
+    /*
+     * mappings for reported terminations
+     */
+
+     @GetMapping("/ReportedTerminations")
+     public String viewReportedTerminations(Model model){
+        //get list of reported terminations
+        ReportedForm form = new ReportedForm();
+        form.setReported(service.getReportedTerminations());
+
+        model.addAttribute("form", form);
+        
+        return "ReportedTerminations";
+     }
+
+     @PostMapping("/ReportedTerminations/{id}")
+     public String updateReportedTerminations(Model model, @ModelAttribute ReportedForm form, @PathVariable String id){
+
+        service.deleteReportedById(id);
+
+        return "ReportedTerminations";
+     }
+    
 }

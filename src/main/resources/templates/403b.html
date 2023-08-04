@@ -58,6 +58,15 @@
             </div>            
           </div>
 
+          <!--form used to view reported terminations and select ones to unremove-->
+          <div class="card mb-2 p-2">
+            <div>
+              <form th:action="@{/ReportedTerminations}" method="get">
+                <input type="submit" value="View Reported Terminations" class="btn btn-outline-success col-md-12">
+              </form>              
+            </div>            
+          </div>
+
            <!--
             Call to create upload form and save reported terminations to database
             Also clears working tables
