@@ -142,7 +142,7 @@ public class BusinessController {
         return "ReportedTerminations";
      }
 
-     @GetMapping("/ReportedTerminations/{id}")
+     @PostMapping("/ReportedTerminations/{id}")
      public String updateReportedTerminations(Model model, @PathVariable String id){
         //remove selected employee from terminated list
         service.deleteReportedById(id);
@@ -171,9 +171,7 @@ public class BusinessController {
                 model.addAttribute("error", "Please upload new data first");
                 model.addAttribute("uploadForm", new UploadForm());
                 return "403b";
-            }
-
-            
+            }            
 
             //call options to cleanup            
             service.updateReportedTerminations();

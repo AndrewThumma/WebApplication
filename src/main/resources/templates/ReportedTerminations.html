@@ -29,25 +29,27 @@
   <body>
     <h1>Reported Terminations</h1>
 
-    <form th:object="${form}" th:action="@{/403b}" action="#" method="get">
-      <div class="table-responsive">
+    
         <table class="table table-sm table-striped table-hover">                  
           <tr class="table-dark">            
             <th>Staff ID</th>
             <th>Report Termination</th>
           </tr>                 
-          <div th:each="employee, itemStat : ${form.reported}">            
-            <tr>
-                <label><span th:text="${employee.getStaffId()}"></span> </label>
-                <input hidden th:name="|reported[${itemStat.index}].staffId|" th:value="${employee.getStaffId()}">
-              </td>             
-              <td>                
-                <a th:href="/ReportedTerminations/${employee.getStaffId()}"><button class="btn-outline-danger">Remove</button></a>                
-              </td>              
-            </tr>
+          <div th:each="employee, itemStat : ${form.reported}">
+            <form th:action="@{/ReportedTerminations/{id}(id=${employee.getStaffId()})}" method="post">
+              <tr>
+                <td>
+                  <label><span th:text="${employee.getStaffId()}"></span> </label>
+                  <input hidden th:name="|reported[${itemStat.index}].staffId|" th:value="${employee.getStaffId()}">
+                </td>             
+                <td>                
+                  <input type="submit" class="btn btn-outline-danger" value="Remove">
+                </td>              
+              </tr>
+            </form>
           </div>
         </table>
-      </div>
+    <form th:action="@{/403b}" action="#" method="get">
       <input type="submit" class="btn btn-outline-success" value="Finish">
     </form>
 
