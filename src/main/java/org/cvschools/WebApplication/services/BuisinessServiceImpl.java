@@ -13,6 +13,7 @@ import org.cvschools.WebApplication.repositories.ReportableTerminationsRepositor
 import org.cvschools.WebApplication.repositories.ReportedTerminationsRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +46,7 @@ public class BuisinessServiceImpl implements BuisinessService{
 
     @Override
     public List<ReportableTerminations> getReportableTerminations() {
-        return reportableRepo.findAll();
+        return reportableRepo.findAll(Sort.by(Sort.Direction.ASC, "staffId"));
     }
 
     @Override
@@ -119,7 +120,7 @@ public class BuisinessServiceImpl implements BuisinessService{
 
     @Override
     public List<ReportedTerminations> getReportedTerminations() {
-        return reportedRepo.findAll();
+        return reportedRepo.findAll(Sort.by(Sort.Direction.ASC, "staffId"));
     }
 
     @Override
