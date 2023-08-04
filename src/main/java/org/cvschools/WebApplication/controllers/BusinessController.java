@@ -1,10 +1,8 @@
 package org.cvschools.WebApplication.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.cvschools.WebApplication.entities.ExportEmployee;
-import org.cvschools.WebApplication.entities.ReportedTerminations;
 import org.cvschools.WebApplication.models.ReportableForm;
 import org.cvschools.WebApplication.models.ReportedForm;
 import org.cvschools.WebApplication.models.UploadForm;
@@ -93,6 +91,73 @@ public class BusinessController {
     }
 
 
+       
+    /*
+     * mappings for reportable terminations
+     */
+    
+    @GetMapping("/ReportableTerminations")
+    public String getReportableTerminations(Model model){                       
+        //get list of reportable terminations                
+        ReportableForm form = new ReportableForm();
+        form.setReportableTerminations(service.getReportableTerminations());
+
+        model.addAttribute("form", form);        
+
+        return "ReportableTerminations";
+    }
+
+
+    @PostMapping("ReportableTerminations")
+    public String updateReprotableTerminations(Model model, @ModelAttribute ReportableForm form){        
+        //set fileUploaded to true
+        fileUploaded = true;
+
+        //update reportable terminations
+        service.updateReportableTerminations(form.getReportableTerminations());
+        
+        //set downloadFileReady to true
+        downloadFileReady = true;
+
+        model.addAttribute("fileUploaded", fileUploaded);
+        model.addAttribute("downloadFileReady", downloadFileReady);
+
+        return "403b";
+    }
+
+
+    /*
+     * mappings for reported terminations
+     */
+
+     @GetMapping("/ReportedTerminations")
+     public String viewReportedTerminations(Model model){
+        //get list of reported terminations
+        ReportedForm form = new ReportedForm();
+        form.setReported(service.getReportedTerminations());
+
+        model.addAttribute("form", form);
+        
+        return "ReportedTerminations";
+     }
+
+     @GetMapping("/ReportedTerminations/{id}")
+     public String updateReportedTerminations(Model model, @PathVariable String id){
+        //remove selected employee from terminated list
+        service.deleteReportedById(id);
+
+        //get updated list
+        ReportedForm form = new ReportedForm();
+        form.setReported(service.getReportedTerminations());
+
+        model.addAttribute("form", form);
+        return "ReportedTerminations";
+     }
+
+     /*
+      * mappings for getting download file
+      */
+
     //still needs work to actually create and download the excel file
     @GetMapping("/403b/download")
     public String getUploadFile(Model model){
@@ -119,67 +184,5 @@ public class BusinessController {
             return "403b";
         }
     }
-
-    
-    /*
-     * mappings for reportable terminations
-     */
-    
-    @GetMapping("/ReportableTerminations")
-    public String getReportableTerminations(Model model){                       
-        //get list of reportable terminations                
-        ReportableForm form = new ReportableForm();
-        form.setReportableTerminations(service.getReportableTerminations());
-
-        model.addAttribute("form", form);        
-
-        return "ReportableTerminations";
-    }
-
-
-    @PostMapping("ReportableTerminations")
-    public String updateReprotableTerminations(Model model, @ModelAttribute ReportableForm form){        
-        //set fileUploaded to true
-        fileUploaded = true;
-
-        //update reportable terminations
-        service.updateReportableTerminations(form.getReportableTerminations());
-                
-        //code to create uploadFile
-        service.createUploadTable();
-        
-        //set downloadFileReady to true
-        downloadFileReady = true;
-
-
-        model.addAttribute("fileUploaded", fileUploaded);
-        model.addAttribute("downloadFileReady", downloadFileReady);
-
-        return "403b";
-    }
-
-
-    /*
-     * mappings for reported terminations
-     */
-
-     @GetMapping("/ReportedTerminations")
-     public String viewReportedTerminations(Model model){
-        //get list of reported terminations
-        ReportedForm form = new ReportedForm();
-        form.setReported(service.getReportedTerminations());
-
-        model.addAttribute("form", form);
-        
-        return "ReportedTerminations";
-     }
-
-     @PostMapping("/ReportedTerminations/{id}")
-     public String updateReportedTerminations(Model model, @ModelAttribute ReportedForm form, @PathVariable String id){
-
-        service.deleteReportedById(id);
-
-        return "ReportedTerminations";
-     }
     
 }
