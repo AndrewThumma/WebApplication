@@ -67,8 +67,7 @@ public class BuisinessServiceImpl implements BuisinessService{
         DataSource ds = createDataSource();
                
         SimpleJdbcCall call = new SimpleJdbcCall(ds);
-        call.withProcedureName("uspUpdateWorkingTables").execute();        
-        System.out.println("stored procedure uspUpdateWorkingTables Called");        
+        call.withProcedureName("uspUpdateWorkingTables").execute();                       
     }
 
     //support function for building datasource
