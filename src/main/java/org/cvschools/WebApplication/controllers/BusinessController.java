@@ -124,11 +124,13 @@ public class BusinessController {
     
     @GetMapping("/ReportableTerminations")
     public String getReportableTerminations(Model model){                       
-        //get list of reportable terminations
-        List<ReportableTerminations> reportable = service.getReportableTerminations();
+        //get list of reportable terminations                
 
-        model.addAttribute("form", new ReportableForm());
-        model.addAttribute("reportableTerminations", reportable);
+        ReportableForm form = new ReportableForm();
+        form.setReportableTerminations(service.getReportableTerminations());
+
+        model.addAttribute("form", form);
+        //model.addAttribute("reportableTerminations", reportable);
 
         return "ReportableTerminations";
     }
@@ -140,7 +142,7 @@ public class BusinessController {
         fileUploaded = true;
 
         //update reportable terminations
-        service.updateReportableTerminations(form.reportableTerminations);
+        service.updateReportableTerminations(form.getReportableTerminations());
                 
         //code to create uploadFile
         service.createUploadTable();

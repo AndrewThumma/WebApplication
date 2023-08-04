@@ -50,24 +50,71 @@
             <th>Zip</th>
             <th>Report Termination</th>
           </tr>                 
-          <div th:each="employee : ${reportableTerminations}">
+          <div th:each="employee, itemStat : ${form.reportableTerminations}">
             <tr>
-              <td><span th:text="${employee.ssn}" th:value="${employee.ssn}"></span></td>
-              <td><span th:text="${employee.StaffId}" th:value="${employee.StaffId}"></span></td>
-              <td><span th:text="${employee.lastName}" th:value="${employee.lastName}"></span></td>
-              <td><span th:text="${employee.firstName}" th:value="${employee.firstName}"></span></td>
-              <td><span th:text="${employee.middleInitial}" th:value="${employee.middleInitial}"></span></td>
-              <td><span th:text="${employee.birthDate}" th:value="${employee.birthDate}"></span></td>
-              <td><span th:text="${employee.hireDate}" th:value="${employee.hireDate}"></span></td>
-              <td><span th:text="${employee.terminationDate}" th:value="${employee.terminationDate}"></span></td>
-              <td><span th:text="${employee.email}" th:value="${employee.email}"></span></td>
-              <td><span th:text="${employee.phoneNumber}" th:value="${employee.phoneNumber}"></span></td>
-              <td><span th:text="${employee.address1}" th:value="${employee.address1}"></td>
-              <td><span th:text="${employee.address2}" th:value="${employee.address2}"></td>
-              <td><span th:text="${employee.city}" th:value="${employee.city}"></span></td>
-              <td><span th:text="${employee.State}" th:value="${employee.State}"></span></td>
-              <td><span th:text="${employee.zip}" th:value="${employee.zip}"></span></td>
-              <td><input type="checkbox" th:value="${employee.reportTermination}"></td>
+              <td>
+                <span th:text="${employee.getSsn()}"></span>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].ssn|" th:value="${employee.getSsn()}">
+              <td>
+                <label><span th:text="${employee.getStaffId()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].staffId|" th:value="${employee.getStaffId()}">
+              </td>
+              <td>
+                <label><span th:text="${employee.getLastName()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].lastName|" th:value="${employee.getLastName()}">
+              </td>
+              <td>
+                <label><span th:text="${employee.getFirstName()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].firstName|" th:value="${employee.getFirstName()}">
+              </td>
+              <td>
+                <label><span th:text="${employee.getMiddleInitial()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].middleInitial|" th:value="${employee.getMiddleInitial()}">
+              </td>
+              <td>
+                <label><span th:text="${employee.getBirthDate()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].birthDate|" th:value="${employee.getBirthDate()}">
+              </td>
+              <td>
+                <label><span th:text="${employee.getHireDate()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].hireDate|" th:value="${employee.getHireDate()}">
+              </td>              
+              <td>
+                <label><span th:text="${employee.getTerminationDate()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].terminationDate|" th:value="${employee.getTerminationDate()}">
+              </td>
+              <td>
+                <label><span th:text="${employee.getEmail()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].email|" th:value="${employee.getEmail()}">
+              </td>
+              <td>
+                <label><span th:text="${employee.getPhoneNumber()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].phoneNumber|" th:value="${employee.getPhoneNumber()}">
+              </td>
+              <td>
+                <label><span th:text="${employee.getAddress1()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].address1|" th:value="${employee.getAddress1()}">
+              </td>
+              <td>
+                <label><span th:text="${employee.getAddress2()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].address2|" th:value="${employee.getAddress2()}">
+              </td>
+              <td>
+                <label><span th:text="${employee.getCity()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].city|" th:value="${employee.getCity()}">
+              </td>
+              <td>
+                <label><span th:text="${employee.getState()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].state|" th:value="${employee.getState()}">
+              </td>
+              <td>
+                <label><span th:text="${employee.getZip()}"></span> </label>
+                <input hidden th:name="|reportableTerminations[${itemStat.index}].zip|" th:value="${employee.getZip()}">
+              </td>              
+              <td>
+                <label><span th:text="${employee.getReportTermination()}"></span> </label>
+                <input type="checkbox" th:name="|reportableTerminations[${itemStat.index}].reportTermination|" th:value="${employee.getReportTermination()}">
+              </td>              
             </tr>
           </div>
         </table>
