@@ -29,12 +29,13 @@
   <body>
     <section class="container">
       <div class="container">
-        <div class="container gap-4 col-md-4">
+        <div class="container">
           <!--Page title-->
           <div>
             <h1 class="text-center">403(b) Upload File Converter</h1>
           </div>
-          
+        </div>
+        <div class="container gap-4 col-md-4">
           <!--Form used to upload file to server and load into SQL-->
           <div class="card mb-2 p-2" th:if="${fileUploaded == false}">
             <form class="row g-3" action="#" th:action="@{/403b}" method="post" th:object="${uploadForm}" enctype="multipart/form-data">
@@ -72,7 +73,7 @@
             Also clears working tables
           -->
           <!--th:if="${downloadFileReady=='true'}"-->
-          <div class="card mb-2 p-2">
+          <div class="card mb-2 p-2" th:if="${fileUploaded == true}">
             <div>
               <form th:action="@{/403b/download}" method="get">
                 <input type="submit" value="Process and Download File" class="btn btn-outline-success col-md-12">

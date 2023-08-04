@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class BusinessController {
@@ -27,9 +26,7 @@ public class BusinessController {
     @Autowired
     BuisinessService service;
 
-    public Boolean fileUploaded;
-    public Boolean downloadFileReady;
-
+    public Boolean fileUploaded;    
 
     /*
      * mappings for main 403(b) page
@@ -41,17 +38,11 @@ public class BusinessController {
             fileUploaded = false;
         }else{
             fileUploaded = true;
-        }
-        
-        if(fileService.getUploadData().isEmpty()){
-            downloadFileReady = false;
-        }else {
-            downloadFileReady = true;
-        }
+        }        
 
         model.addAttribute("uploadForm", new UploadForm());
         model.addAttribute("fileUploaded", fileUploaded);
-        model.addAttribute("downloadFileReady", downloadFileReady);
+        
         return "403b";
     }
 
@@ -72,30 +63,27 @@ public class BusinessController {
 
                 fileService.save(uploadForm.getUploadFile());
                 fileUploaded = true;
-                downloadFileReady = false;
 
                 service.createReportableTerminations();
                 
                 model.addAttribute("fileUploaded", fileUploaded);
-                model.addAttribute("downloadFileReady", downloadFileReady);
+                
                 return "403b";
             } catch (Exception e) {
-                fileUploaded = false;
-                downloadFileReady = false;
+                fileUploaded = false;            
                 
                 model.addAttribute("error", "Could Not Upload the File");
                 model.addAttribute("fileUploaded", fileUploaded);
-                model.addAttribute("downloadFileReady", downloadFileReady);
+                
                 return "403b";
             }            
         }
         
         //if not an excel file return error
-        fileUploaded = false;
-        downloadFileReady = false;
+        fileUploaded = false;        
         model.addAttribute("error", "Please upload an excel file!");
         model.addAttribute("fileUploaded", fileUploaded);
-        model.addAttribute("downloadFileReady", downloadFileReady);
+        
         return "403b";
     }
 
@@ -124,13 +112,10 @@ public class BusinessController {
 
         //update reportable terminations
         service.updateReportableTerminations(form.getReportableTerminations());
-        
-        //set downloadFileReady to true
-        downloadFileReady = true;
+
 
         model.addAttribute("uploadForm", new UploadForm());
-        model.addAttribute("fileUploaded", fileUploaded);
-        model.addAttribute("downloadFileReady", downloadFileReady);
+        model.addAttribute("fileUploaded", fileUploaded);        
 
         return "403b";
     }
@@ -150,12 +135,6 @@ public class BusinessController {
             fileUploaded = false;
         }else {
             fileUploaded = true;
-        }
-
-        if(fileService.getUploadData().isEmpty()){
-            downloadFileReady = false;
-        }else {
-            downloadFileReady = true;
         }
 
         model.addAttribute("fileUploaded", fileUploaded);
@@ -207,18 +186,20 @@ public class BusinessController {
             service.clearReportableTerminations();
             service.clearActiveStaff();
             service.clearImportedData();
-            fileUploaded = false;
-            downloadFileReady = false;
+            fileUploaded = false;            
 
             model.addAttribute("file", employees);
             model.addAttribute("uploadForm", new UploadForm());
             model.addAttribute("fileUploaded", fileUploaded);
-            model.addAttribute("downloadFileReady", downloadFileReady);
 
             return "403b";
         } catch (Exception e){
+            fileUploaded = true;
+            
+            model.addAttribute("fileUploaded", e);
             model.addAttribute("error", e);
             model.addAttribute("uploadForm", new UploadForm());
+
             return "403b";
         }
     }
