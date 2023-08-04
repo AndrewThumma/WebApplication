@@ -36,7 +36,7 @@
           </div>
           
           <!--Form used to upload file to server and load into SQL-->
-          <div class="card mb-2 p-2">
+          <div class="card mb-2 p-2" th:if="${fileUploaded == false}">
             <form class="row g-3" action="#" th:action="@{/403b}" method="post" th:object="${uploadForm}" enctype="multipart/form-data">
               <div class="col-md-12">
                 <img th:src="" id="uploadCheckMark" th:if="${fileUploaded=='true'}">
@@ -50,7 +50,7 @@
 
           <!--form used to view reportable terminations and select ones to report-->
           <!--th:if="${fileUploaded=='true'}"-->
-          <div class="card mb-2 p-2">
+          <div class="card mb-2 p-2" th:if="${fileUploaded == true}">
             <div>
               <form th:action="@{/ReportableTerminations}" method="get">
                 <input type="submit" value="Select Terminations to Report" class="btn btn-outline-success col-md-12">

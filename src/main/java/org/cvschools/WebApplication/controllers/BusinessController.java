@@ -35,11 +35,20 @@ public class BusinessController {
      * mappings for main 403(b) page
      */
     @GetMapping("/403b")
-    public String get403b(Model model, @RequestParam(required = false) Boolean fileUploaded,
-                            @RequestParam(required = false) Boolean downloadFileReady){                        
-
-        //check for values in fileUploaded and downloadFileReady
+    public String get403b(Model model){                        
         
+        if(service.getReportableTerminations().isEmpty()){
+            fileUploaded = false;
+        }else{
+            fileUploaded = true;
+        }
+        
+        if(fileService.getUploadData().isEmpty()){
+            downloadFileReady = false;
+        }else {
+            downloadFileReady = true;
+        }
+
         model.addAttribute("uploadForm", new UploadForm());
         model.addAttribute("fileUploaded", fileUploaded);
         model.addAttribute("downloadFileReady", downloadFileReady);
@@ -137,6 +146,19 @@ public class BusinessController {
         ReportedForm form = new ReportedForm();
         form.setReported(service.getReportedTerminations());
 
+        if(service.getReportableTerminations().isEmpty()){
+            fileUploaded = false;
+        }else {
+            fileUploaded = true;
+        }
+
+        if(fileService.getUploadData().isEmpty()){
+            downloadFileReady = false;
+        }else {
+            downloadFileReady = true;
+        }
+
+        model.addAttribute("fileUploaded", fileUploaded);
         model.addAttribute("form", form);
         
         return "ReportedTerminations";
@@ -151,6 +173,13 @@ public class BusinessController {
         ReportedForm form = new ReportedForm();
         form.setReported(service.getReportedTerminations());
 
+        if(service.getReportableTerminations().isEmpty()){
+            fileUploaded = false;
+        }else{
+            fileUploaded = true;
+        }
+
+        model.addAttribute("fileUploaded", fileUploaded);
         model.addAttribute("form", form);
         return "ReportedTerminations";
      }
