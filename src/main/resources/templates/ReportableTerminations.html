@@ -111,9 +111,8 @@
                 <label><span th:text="${employee.getZip()}"></span> </label>
                 <input hidden th:name="|reportableTerminations[${itemStat.index}].zip|" th:value="${employee.getZip()}">
               </td>              
-              <td>
-                <label><span th:text="${employee.getReportTermination()}"></span> </label>
-                <input type="checkbox" th:name="|reportableTerminations[${itemStat.index}].reportTermination|" th:value="${employee.getReportTermination()}">
+              <td>                
+                <input type="checkbox" th:name="|reportableTerminations[${itemStat.index}].reportTermination|" th:checked="${employee.getReportTermination()}">
               </td>              
             </tr>
           </div>
