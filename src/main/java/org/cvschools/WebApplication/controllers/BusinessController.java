@@ -119,6 +119,7 @@ public class BusinessController {
         //set downloadFileReady to true
         downloadFileReady = true;
 
+        model.addAttribute("uploadForm", new UploadForm());
         model.addAttribute("fileUploaded", fileUploaded);
         model.addAttribute("downloadFileReady", downloadFileReady);
 
@@ -168,19 +169,29 @@ public class BusinessController {
 
             if(employees.isEmpty()){
                 model.addAttribute("error", "Please upload new data first");
+                model.addAttribute("uploadForm", new UploadForm());
                 return "403b";
             }
 
-            model.addAttribute("file", employees);
+            
 
-            //call options to cleanup
+            //call options to cleanup            
             service.updateReportedTerminations();
             service.clearReportableTerminations();
             service.clearActiveStaff();
             service.clearImportedData();
+            fileUploaded = false;
+            downloadFileReady = false;
+
+            model.addAttribute("file", employees);
+            model.addAttribute("uploadForm", new UploadForm());
+            model.addAttribute("fileUploaded", fileUploaded);
+            model.addAttribute("downloadFileReady", downloadFileReady);
+
             return "403b";
         } catch (Exception e){
             model.addAttribute("error", e);
+            model.addAttribute("uploadForm", new UploadForm());
             return "403b";
         }
     }

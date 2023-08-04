@@ -36,10 +36,10 @@
             <th>Staff ID</th>
             <th>Report Termination</th>
           </tr>                 
-          <div th:each="employee, itemStat : ${form.reportableTerminations}">            
+          <div th:each="employee, itemStat : ${form.reported}">            
             <tr>
                 <label><span th:text="${employee.getStaffId()}"></span> </label>
-                <input hidden th:name="|reportableTerminations[${itemStat.index}].staffId|" th:value="${employee.getStaffId()}">
+                <input hidden th:name="|reported[${itemStat.index}].staffId|" th:value="${employee.getStaffId()}">
               </td>             
               <td>                
                 <a th:href="/ReportedTerminations/${employee.getStaffId()}"><button class="btn-outline-danger">Remove</button></a>                
