@@ -1,18 +1,10 @@
 package org.cvschools.WebApplication.controllers;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import org.cvschools.WebApplication.entities.ExportEmployee;
 import org.cvschools.WebApplication.models.ReportableForm;
 import org.cvschools.WebApplication.models.ReportedForm;
 import org.cvschools.WebApplication.models.UploadForm;
 import org.cvschools.WebApplication.services.ExcelService;
 import org.cvschools.WebApplication.services.BuisinessService;
-import org.cvschools.WebApplication.utilities.ExcelExporter;
 import org.cvschools.WebApplication.utilities.ExcelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -26,8 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class BusinessController {
@@ -261,6 +251,7 @@ public class BusinessController {
     @GetMapping("/403b/clear")
     public String reset(Model model){
         fileUploaded = false;
+        downloadReady = false;
 
         service.clearActiveStaff();
         service.clearExportData();
@@ -269,6 +260,7 @@ public class BusinessController {
 
         model.addAttribute("uploadForm", new UploadForm());
         model.addAttribute("fileUploaded", fileUploaded);
+        model.addAttribute("downloadReady", downloadReady);
 
         return "403b";
     }

@@ -37,7 +37,7 @@
         </div>
         <div class="container gap-4 col-md-4">
           <!--Form used to upload file to server and load into SQL-->
-          <div class="card mb-2 p-2" th:if="${fileUploaded == false}">
+          <div class="card mb-2 p-2" th:if="${fileUploaded == false and downloadReady == false}">
             <form class="row g-3" action="#" th:action="@{/403b}" method="post" th:object="${uploadForm}" enctype="multipart/form-data">
               <div class="col-md-12">                
                 <input type="file" th:field="*{uploadFile}" id="uploadFile" accept=".xlsx,.xls,.csv">
@@ -50,7 +50,7 @@
 
           <!--form used to view reportable terminations and select ones to report-->
           <!--th:if="${fileUploaded=='true'}"-->
-          <div class="card mb-2 p-2" th:if="${fileUploaded == true}">
+          <div class="card mb-2 p-2" th:if="${fileUploaded == true and downloadReady == false}">
             <div>
               <form th:action="@{/ReportableTerminations}" method="get">
                 <input type="submit" value="Select Terminations to Report" class="btn btn-outline-success col-md-12">
@@ -72,7 +72,7 @@
             Also clears working tables
           -->
           <!--th:if="${downloadFileReady=='true'}"-->
-          <div class="card mb-2 p-2" th:if="${fileUploaded == true}">
+          <div class="card mb-2 p-2" th:if="${fileUploaded == true and downloadReady == false}">
             <div>
               <form th:action="@{/403b/process}" method="get">
                 <input type="submit" value="Process Files" class="btn btn-outline-success col-md-12">

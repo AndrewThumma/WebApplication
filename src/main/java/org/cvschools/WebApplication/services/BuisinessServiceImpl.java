@@ -46,7 +46,7 @@ public class BuisinessServiceImpl implements BuisinessService{
 
     @Override
     public List<ReportableTerminations> getReportableTerminations() {
-        return reportableRepo.findAll(Sort.by(Sort.Direction.ASC, "staffId"));
+        return reportableRepo.findAll(Sort.by("staffId"));
     }
 
     @Override
