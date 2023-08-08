@@ -48,7 +48,12 @@ public class BusinessController {
             fileUploaded = true;
         }
         
-        downloadReady = false;
+        if(fileService.getUploadData().isEmpty()){
+            downloadReady = false;
+        }else {
+            downloadReady = true;
+        }
+        
 
         model.addAttribute("uploadForm", new UploadForm());
         model.addAttribute("fileUploaded", fileUploaded);
@@ -124,7 +129,7 @@ public class BusinessController {
     }
 
 
-    @PostMapping("ReportableTerminations")
+    @PostMapping("/ReportableTerminations")
     public String updateReprotableTerminations(Model model, @ModelAttribute ReportableForm form){        
         //set fileUploaded to true
         fileUploaded = true;
@@ -159,7 +164,11 @@ public class BusinessController {
             fileUploaded = true;
         }
 
-        downloadReady = false;
+        if(fileService.getUploadData().isEmpty()){
+            downloadReady = false;
+        }else {
+            downloadReady = true;
+        }
 
         model.addAttribute("fileUploaded", fileUploaded);
         model.addAttribute("form", form);
@@ -183,7 +192,11 @@ public class BusinessController {
             fileUploaded = true;
         }
 
-        downloadReady = false;
+        if(fileService.getUploadData().isEmpty()){
+            downloadReady = false;
+        }else {
+            downloadReady = true;
+        }
 
         model.addAttribute("fileUploaded", fileUploaded);
         model.addAttribute("form", form);
@@ -206,9 +219,11 @@ public class BusinessController {
         service.clearReportableTerminations();
         service.clearActiveStaff();
         service.clearImportedData();
-        fileUploaded = false;
 
-        //set downloadReady to true so download button displays
+        //hide upload option
+        fileUploaded = true;
+        
+        //display download option
         downloadReady = true;
 
         model.addAttribute("fileUploaded", fileUploaded);
@@ -243,6 +258,8 @@ public class BusinessController {
             exporter.export(response);
 
             //call to refresh screen
+            fileService.clearUploadData();
+
             get403b(model);
         }
     }

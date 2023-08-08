@@ -39,5 +39,9 @@ public class ExcelService {
         
         return employees;
     }
+
+    public void clearUploadData(){
+        repo.deleteAll();
+    }
     
 }
