@@ -1,5 +1,6 @@
 package org.cvschools.WebApplication.services;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -41,7 +42,14 @@ public class ExcelService {
     }
 
     public void clearUploadData(){
-        repo.deleteAll();
+        exportRepo.deleteAll();
+    }
+
+    public ByteArrayInputStream load(){
+        List<ExportEmployee> employees = exportRepo.findAll();
+        ByteArrayInputStream in = ExcelHelper.exportToExcel(employees);
+
+        return in;
     }
     
 }

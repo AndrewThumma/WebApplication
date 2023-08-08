@@ -1,5 +1,7 @@
 package org.cvschools.WebApplication.utilities;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.cvschools.WebApplication.entities.ExportEmployee;
 import org.cvschools.WebApplication.entities.ImportedEmployee;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +27,9 @@ public class ExcelHelper {
   static String[] HEADERs = { "403b Loan", "Staff Social Security Number", "Staff Id", "Last Name", "First Name", "Middle Initial", "Birth Date", "Hire Date", 
                               "Termination Date", "Email", "Phone Number", "Address1", "Address2", "City", "State", "Zip" };
   static String SHEET = "403bFile"; //verify sheet name
+  static String[] outHeaders = {"Staff ID", "Staff Social Security Number","Last Name", "First Name", "Middle Initial", "Birth Date", "Hire Date", 
+                              "Termination Date", "Email", "Phone Number", "Address1", "Address2", "City", "State", "Zip"};
+  static String outSheet = "Sheet1";
 
   public static boolean hasExcelFormat(MultipartFile file) {
 
@@ -139,5 +145,48 @@ public class ExcelHelper {
     } catch (IOException e) {
       throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
     }
+  }
+
+  public static ByteArrayInputStream exportToExcel(List<ExportEmployee> employees){
+    try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
+      Sheet sheet = workbook.createSheet(outSheet);
+
+      // Header
+      Row headerRow = sheet.createRow(0);
+
+      for (int col = 0; col < outHeaders.length; col++) {
+        Cell cell = headerRow.createCell(col);
+        cell.setCellValue(outHeaders[col]);
+      }
+
+      int rowIdx = 1;
+      for (ExportEmployee e : employees) {
+        Row row = sheet.createRow(rowIdx++);
+
+        row.createCell(0).setCellValue(e.getStaffId());
+        row.createCell(1).setCellValue(e.getSsn());
+        row.createCell(2).setCellValue(e.getLastName());
+        row.createCell(3).setCellValue(e.getFirstName());
+        row.createCell(4).setCellValue(e.getMiddleInitial());
+        row.createCell(5).setCellValue(e.getBirthDate());
+        row.createCell(6).setCellValue(e.getHireDate());
+        row.createCell(7).setCellValue(e.getTerminationDate());
+        row.createCell(8).setCellValue(e.getEmail());
+        row.createCell(9).setCellValue(e.getPhoneNumber());
+        row.createCell(10).setCellValue(e.getAddress1());
+        row.createCell(11).setCellValue(e.getAddress2());
+        row.createCell(12).setCellValue(e.getCity());
+        row.createCell(13).setCellValue(e.getState());
+        row.createCell(14).setCellValue(e.getZip());
+        
+      }
+
+      workbook.write(out);
+      workbook.close();
+      return new ByteArrayInputStream(out.toByteArray());
+    } catch (IOException e) {
+      throw new RuntimeException("fail to import data to Excel file: " + e.getMessage());
+    }
+    
   }
 }

@@ -15,6 +15,11 @@ import org.cvschools.WebApplication.services.BuisinessService;
 import org.cvschools.WebApplication.utilities.ExcelExporter;
 import org.cvschools.WebApplication.utilities.ExcelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -236,32 +241,18 @@ public class BusinessController {
     
     //mapping to download processed file      
     @GetMapping("/403b/download")
-    public void getUploadFile(Model model, HttpServletResponse response) throws IOException{
-        
-        if (!service.getReportableTerminations().isEmpty()){
-            //get download data            
-            List<ExportEmployee> employees = fileService.getUploadData();                
+    public ResponseEntity<Resource> getUploadFile(){                                                                 
+        //create download file
+        String filename = "403b_UploadFile.xlsx";
+        InputStreamResource file = new InputStreamResource(fileService.load());
 
-            //create download file
-            response.setContentType("application/octet-stream");
-            DateFormat formatter = new SimpleDateFormat("yyy-MM-dd_HH:mm:ss");
-            String currentDateTime = formatter.format(new Date());
+        //call to refresh screen
+        fileService.clearUploadData();
 
-            String headerKey = "Content-Disposition";
-            String headerValue = "attachment; filename=403b_" + currentDateTime + ".xlsx";
-            response.setHeader(headerKey, headerValue);
-
-            //create export instance
-            ExcelExporter exporter = new ExcelExporter(employees);
-
-            //export file
-            exporter.export(response);
-
-            //call to refresh screen
-            fileService.clearUploadData();
-
-            get403b(model);
-        }
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+            .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+            .body(file);                
     }
 
     /*
