@@ -14,8 +14,8 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-              <a class="nav-link" href="#">Data Visualzations</a>
+              <a class="nav-link" href="/index">Home</a>
+              <a class="nav-link active" aria-current="page" href="/Reports">Data Visualzations</a>
               <a class="nav-link" href="/403b">Business Processes</a>              
             </div>
           </div>
@@ -39,7 +39,19 @@
           <!--content goes here-->
           <div class="container gap-4 col-md-4">
 
-  
+            <div class="card mb-2 p-2">
+                <div class="card-header">
+                    Registration Report
+                </div>
+                <div class="card-body">
+                    Registration report description
+                </div>
+                <div class="card-footer">
+                    <form th:action="@{/datavizualization/1}" method="get">
+                        <input type="submit" class="btn btn-outline-success col-md-12" value="View">
+                    </form>
+                </div>
+            </div>
 
           </div>
         </div>
