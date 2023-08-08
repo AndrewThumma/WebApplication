@@ -1,5 +1,9 @@
 package org.cvschools.WebApplication.controllers;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.cvschools.WebApplication.entities.ExportEmployee;
@@ -8,6 +12,7 @@ import org.cvschools.WebApplication.models.ReportedForm;
 import org.cvschools.WebApplication.models.UploadForm;
 import org.cvschools.WebApplication.services.ExcelService;
 import org.cvschools.WebApplication.services.BuisinessService;
+import org.cvschools.WebApplication.utilities.ExcelExporter;
 import org.cvschools.WebApplication.utilities.ExcelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +21,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class BusinessController {
@@ -26,7 +33,8 @@ public class BusinessController {
     @Autowired
     BuisinessService service;
 
-    public Boolean fileUploaded;    
+    public Boolean fileUploaded;
+    public Boolean downloadReady;    
 
     /*
      * mappings for main 403(b) page
@@ -38,10 +46,13 @@ public class BusinessController {
             fileUploaded = false;
         }else{
             fileUploaded = true;
-        }        
+        }
+        
+        downloadReady = false;
 
         model.addAttribute("uploadForm", new UploadForm());
         model.addAttribute("fileUploaded", fileUploaded);
+        model.addAttribute("downloadReady", downloadReady);
         
         return "403b";
     }
@@ -64,25 +75,33 @@ public class BusinessController {
                 fileService.save(uploadForm.getUploadFile());
                 fileUploaded = true;
 
+                downloadReady = false;
+
                 service.createReportableTerminations();
                 
                 model.addAttribute("fileUploaded", fileUploaded);
+                model.addAttribute("downloadReady", downloadReady);
                 
                 return "403b";
             } catch (Exception e) {
-                fileUploaded = false;            
+                fileUploaded = false;
+                downloadReady = false;        
                 
                 model.addAttribute("error", "Could Not Upload the File");
                 model.addAttribute("fileUploaded", fileUploaded);
+                model.addAttribute("downloadReady", downloadReady);
                 
                 return "403b";
             }            
         }
         
         //if not an excel file return error
-        fileUploaded = false;        
+        fileUploaded = false; 
+        downloadReady = false;
+
         model.addAttribute("error", "Please upload an excel file!");
         model.addAttribute("fileUploaded", fileUploaded);
+        model.addAttribute("downloadReady", downloadReady);
         
         return "403b";
     }
@@ -110,12 +129,15 @@ public class BusinessController {
         //set fileUploaded to true
         fileUploaded = true;
 
+        downloadReady = false;
+
         //update reportable terminations
         service.updateReportableTerminations(form.getReportableTerminations());
 
 
         model.addAttribute("uploadForm", new UploadForm());
-        model.addAttribute("fileUploaded", fileUploaded);        
+        model.addAttribute("fileUploaded", fileUploaded);      
+        model.addAttribute("downloadReady", downloadReady);  
 
         return "403b";
     }
@@ -137,8 +159,11 @@ public class BusinessController {
             fileUploaded = true;
         }
 
+        downloadReady = false;
+
         model.addAttribute("fileUploaded", fileUploaded);
         model.addAttribute("form", form);
+        model.addAttribute("downloadReady", downloadReady);
         
         return "ReportedTerminations";
      }
@@ -158,8 +183,12 @@ public class BusinessController {
             fileUploaded = true;
         }
 
+        downloadReady = false;
+
         model.addAttribute("fileUploaded", fileUploaded);
         model.addAttribute("form", form);
+        model.addAttribute("downloadReady", downloadReady);
+
         return "ReportedTerminations";
      }
 
@@ -167,40 +196,54 @@ public class BusinessController {
       * mappings for getting download file
       */
 
-    //still needs work to actually create and download the excel file
+    @GetMapping("/403b/process")
+    public String processFile(Model model){
+        //create uploadTable
+        service.createUploadTable();
+        
+        //call options to cleanup            
+        service.updateReportedTerminations();
+        service.clearReportableTerminations();
+        service.clearActiveStaff();
+        service.clearImportedData();
+        fileUploaded = false;
+
+        //set downloadReady to true so download button displays
+        downloadReady = true;
+
+        model.addAttribute("fileUploaded", fileUploaded);
+        model.addAttribute("downloadReady", downloadReady);
+        model.addAttribute("uploadForm", new UploadForm());
+
+        return "403b";
+    }
+    
+    
+    //mapping to download processed file      
     @GetMapping("/403b/download")
-    public String getUploadFile(Model model){
-        try{
-            service.createUploadTable();
+    public void getUploadFile(Model model, HttpServletResponse response) throws IOException{
+        
+        if (!service.getReportableTerminations().isEmpty()){
+            //get download data            
+            List<ExportEmployee> employees = fileService.getUploadData();                
 
-            List<ExportEmployee> employees = fileService.getUploadData();
+            //create download file
+            response.setContentType("application/octet-stream");
+            DateFormat formatter = new SimpleDateFormat("yyy-MM-dd_HH:mm:ss");
+            String currentDateTime = formatter.format(new Date());
 
-            if(employees.isEmpty()){
-                model.addAttribute("error", "Please upload new data first");
-                model.addAttribute("uploadForm", new UploadForm());
-                return "403b";
-            }            
+            String headerKey = "Content-Disposition";
+            String headerValue = "attachment; filename=403b_" + currentDateTime + ".xlsx";
+            response.setHeader(headerKey, headerValue);
 
-            //call options to cleanup            
-            service.updateReportedTerminations();
-            service.clearReportableTerminations();
-            service.clearActiveStaff();
-            service.clearImportedData();
-            fileUploaded = false;            
+            //create export instance
+            ExcelExporter exporter = new ExcelExporter(employees);
 
-            model.addAttribute("file", employees);
-            model.addAttribute("uploadForm", new UploadForm());
-            model.addAttribute("fileUploaded", fileUploaded);
+            //export file
+            exporter.export(response);
 
-            return "403b";
-        } catch (Exception e){
-            fileUploaded = true;
-            
-            model.addAttribute("fileUploaded", e);
-            model.addAttribute("error", e);
-            model.addAttribute("uploadForm", new UploadForm());
-
-            return "403b";
+            //call to refresh screen
+            get403b(model);
         }
     }
 

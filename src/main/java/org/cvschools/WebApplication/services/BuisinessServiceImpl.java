@@ -17,8 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
-import com.zaxxer.hikari.pool.HikariPool;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

@@ -74,11 +74,17 @@
           <!--th:if="${downloadFileReady=='true'}"-->
           <div class="card mb-2 p-2" th:if="${fileUploaded == true}">
             <div>
-              <form th:action="@{/403b/download}" method="get">
-                <input type="submit" value="Process and Download File" class="btn btn-outline-success col-md-12">
+              <form th:action="@{/403b/process}" method="get">
+                <input type="submit" value="Process Files" class="btn btn-outline-success col-md-12">
               </form>               
-            </div>
-            
+            </div>            
+          </div>
+
+          <!--download link-->
+          <div class="card mb-2 p-2" th:if="${downloadReady == true}">
+            <div>
+              <a th:href="@{/403b/download}"><button class="btn btn-outline-success">Download File</button></a>
+            </div>            
           </div>
 
           <!--Reset-->
