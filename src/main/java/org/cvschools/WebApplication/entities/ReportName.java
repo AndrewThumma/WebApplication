@@ -20,7 +20,7 @@ import lombok.Setter;
 public class ReportName {
     
     @Id
-    @Column(columnDefinition = "Int", nullable = false, name = "id")
+    @Column(columnDefinition = "INT", nullable = false, name = "id")
     private Integer id;
 
     @Column(columnDefinition = "nvarchar(50)", nullable = false, name = "reportName")
