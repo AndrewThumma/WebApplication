@@ -27,4 +27,6 @@ public class UserDto {
 
     @NotEmpty(message = "Please enter valid password.")
     private String password;
+
+    private String role;
 }
