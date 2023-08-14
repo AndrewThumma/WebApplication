@@ -1,6 +1,5 @@
 package org.cvschools.WebApplication.bootstrap;
 
-import java.util.List;
 import java.util.Arrays;
 
 import org.cvschools.WebApplication.entities.Role;
@@ -40,6 +39,8 @@ public class AdminUser implements CommandLineRunner{
             }
                         
             User user = new User("Andrew Thumma", "ajthumma@cvschools.org", passwordEncoder.encode("J@smine56"), Arrays.asList(role));
+
+            userRepo.save(user);
         }        
         
     }
