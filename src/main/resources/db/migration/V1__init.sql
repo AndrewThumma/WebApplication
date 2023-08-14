@@ -1,5 +1,5 @@
 drop table if exists [403b].ActiveStaff;
-drop table if exists [403b].importedData;
+drop table if exists [403b].ImportedData;
 drop table if exists [403b].ReportableTerminations;
 drop table if exists [403b].ReportedTerminations;
 drop table if exists [403b].UploadFile;
