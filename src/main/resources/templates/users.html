@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">cvschools</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link" href="#">Data Visualzations</a>
+              <a class="nav-link" href="/403b">Business Processes</a>              
+            </div>
+          </div>
+        </div>
+      </nav>
+
+  </head>
+  
+  
+  
+  <body>
+    <h1>User Management</h1>
+
+      <a th:href="@{/register}"><i class="fa-solid fa-user-plus"></i></a>
+      <div class="table-responsive">
+        <table class="table table-sm table-striped table-hover">                  
+          <tr class="table-dark">
+            <th>Name</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Actions</th>                    
+          </tr>                 
+          <div th:each="user, itemStat : ${form.users}">
+            <tr>
+              <td>
+                <span th:text="${user.getName()}"></span>
+                <input hidden th:name="|users[${itemStat.index}].name|" th:value="${user.getName()}">
+                <input hidden th:name="|users[${itemStat.index}].id|" th:value="${user.getId()}">
+              <td>
+                <label><span th:text="${user.getEmail()}"></span> </label>
+                <input hidden th:name="|users[${itemStat.index}].email|" th:value="${user.getEmail()}">
+              </td>                           
+              <td>
+                <!--Actions-->
+                <a th:href="@{/resetPassword/{id}(id=${user.getId()})}"><i class="fa-solid fa-key"></i></a>
+                <a th:href="@{/changeRoles/{id}(id=${user.getId()})}"><i class="fa-pen-to-square"></i></a>
+                <a th:href="@{/deleteUser/{id}(id=${user.getId()})}"><i class="fa-trash"></i></a>
+                <input type="checkbox" th:name="|reportableTerminations[${itemStat.index}].reportTermination|" th:checked="${employee.getReportTermination()}">
+              </td>              
+            </tr>
+          </div>
+        </table>
+      </div>          
+
+
+    <script src="https://kit.fontawesome.com/25f837f771.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  </body>
+</html>

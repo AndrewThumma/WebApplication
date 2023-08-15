@@ -95,6 +95,6 @@ public class UserController {
         }
 
         userService.saveUser(userDto);
-        return "redirect:/registration?success";
+        return "users";
     }
 }
