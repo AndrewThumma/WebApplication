@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
@@ -27,40 +28,33 @@ public class UserController {
         //create form object with list of users
         UserForm form = new UserForm();
         form.setUsers(userService.findAll());
+
+        UserDto user = new UserDto();
         
+        model.addAttribute("user", user);
         model.addAttribute("form", form);
         
         return "users";
     }
 
-    @PostMapping("/users")
-    public String updateUsers(Model model, @ModelAttribute UserForm form){
-        //update users
-        userService.updateUsers(form.getUsers());
-
-        model.addAttribute("form", form);
+    @GetMapping("/deleteUser/{id}")
+    public String deleteUser(Model model, @RequestParam Integer id){
+        userService.deleteUser(id);
 
         return "users";
     }
 
-    @GetMapping("/profile")
-    public String getProfile(Model model){
-        //get user information and put in profile form
-        ProfileForm form = new ProfileForm();
+    @PostMapping("/createUser")
+    public String createUser(Model model, @ModelAttribute UserDto userDto, @ModelAttribute UserForm form){
+        userService.saveUser(userDto);
 
+        form.setUsers(userService.findAll());
+        
         model.addAttribute("form", form);
+        model.addAttribute("userDto", new UserDto());
+        model.addAttribute("message", "Success");
 
-        return "profile";
-    }
-
-    @PostMapping("/profile")
-    public String updateProfile(Model model, @ModelAttribute ProfileForm form){
-
-        userService.updatePassword(userService.findUserByEmail(form.getEmail()), form.getCurrentPassword(), form.getNewPassword());
-
-        model.addAttribute("form", form);
-
-        return "profile";
+        return "users";
     }
 
     //get mapping to display user registration page
@@ -76,7 +70,8 @@ public class UserController {
     public String registration(
             @Valid @ModelAttribute("user") UserDto userDto,
             BindingResult result,
-            Model model) {
+            Model model,
+            @ModelAttribute UserForm form) {
   
         //attempt to find existing user with supplied username/email
         User existingUser = userService.findUserByEmail(userDto.getEmail());
@@ -93,6 +88,11 @@ public class UserController {
         }
 
         userService.saveUser(userDto);
+
+        form.setUsers(userService.findAll());
+
+        model.addAttribute("form", form);
+
         return "users";
     }
 }

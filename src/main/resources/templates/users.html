@@ -28,37 +28,85 @@
   
   <body>
     <h1>User Management</h1>
+ 
+    <div class="p-2 gap-11 col-md-1">
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUser"><i class="fa-solid fa-user-plus"></i> Add User</button>
+      <a th:href="@{/register}" class="btn btn-success"><i class="fa-solid fa-user-plus"></i> Add User</a>
+    </div>
 
-      <a th:href="@{/register}"><i class="fa-solid fa-user-plus"></i></a>
-      <div class="table-responsive">
-        <table class="table table-sm table-striped table-hover">                  
-          <tr class="table-dark">
-            <th>Name</th>
-            <th>Email</th>
-            <th>Roles</th>
-            <th>Actions</th>                    
-          </tr>                 
-          <div th:each="user, itemStat : ${form.users}">
-            <tr>
-              <td>
-                <span th:text="${user.getName()}"></span>
-                <input hidden th:name="|users[${itemStat.index}].name|" th:value="${user.getName()}">
-                <input hidden th:name="|users[${itemStat.index}].id|" th:value="${user.getId()}">
-              <td>
-                <label><span th:text="${user.getEmail()}"></span> </label>
-                <input hidden th:name="|users[${itemStat.index}].email|" th:value="${user.getEmail()}">
-              </td>                           
-              <td>
-                <!--Actions-->
-                <a th:href="@{/resetPassword/{id}(id=${user.getId()})}"><i class="fa-solid fa-key"></i></a>
-                <a th:href="@{/changeRoles/{id}(id=${user.getId()})}"><i class="fa-pen-to-square"></i></a>
-                <a th:href="@{/deleteUser/{id}(id=${user.getId()})}"><i class="fa-trash"></i></a>
-                <input type="checkbox" th:name="|reportableTerminations[${itemStat.index}].reportTermination|" th:checked="${employee.getReportTermination()}">
-              </td>              
-            </tr>
+    
+    <!--list of users and management options-->
+    <div class="container">
+      <table class="table table-sm table-striped table-hover">                  
+        <tr class="table-dark">
+          <th>Name</th>
+          <th>Email</th>
+          <th>Roles</th>
+          <th>Actions</th>                    
+        </tr>                 
+        <div th:each="user, itemStat : ${form.users}">
+          <tr>
+            <td>
+              <span th:text="${user.getName()}"></span>
+              <input hidden th:name="|users[${itemStat.index}].name|" th:value="${user.getName()}">
+              <input hidden th:name="|users[${itemStat.index}].id|" th:value="${user.getId()}">
+            <td>
+              <label><span th:text="${user.getEmail()}"></span> </label>
+              <input hidden th:name="|users[${itemStat.index}].email|" th:value="${user.getEmail()}">
+            </td>
+            <td>
+              <label><span th:text="${user.getRoles()}"></span></label>
+              <input hidden th:name="|users[${itemStat.index}].roles|" th:value="${user.getRoles()}">
+            </td>                          
+            <td>
+              <!--Actions-->
+              <a th:href="@{/resetPassword/{id}(id=${user.getId()})}" title="Reset Password"><i class="fa-solid fa-key"></i></a>
+              <a th:href="@{/changeRoles/{id}(id=${user.getId()})}" title="Edit User"><i class="fa-solid fa-pen-to-square"></i></a>
+              <a th:href="@{/deleteUser/{id}(id=${user.getId()})}" title="Delete User" style="color:red;"><i class="fa-solid fa-trash"></i></a>                
+            </td>              
+          </tr>
+        </div>
+      </table>
+    </div>    
+    
+    
+    <!-- New User Modal -->
+    <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Add new user</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-        </table>
-      </div>          
+          <div class="modal-body">
+            <form th:action="@{/register}" method="post" action="#" th:object="${user}">
+              <div class="mb-3">
+                <label class="form-label" for="name">Name</label>
+                <input class="form-control" id="name" name="name" type="text">
+                <p class="text-danger" th:errors="*{name}"
+                   th:if="${#fields.hasErrors('name')}"></p>
+              </div>
+              <div class="mb-3">
+                  <label class="form-label" for="email">Email</label>
+                  <input class="form-control" id="email" name="email" type="email">
+                  <p class="text-danger" th:errors="*{email}"
+                    th:if="${#fields.hasErrors('email')}"></p>
+              </div>
+              <div class="mb-3">
+                  <label class="col-sm-2 col-form-label" for="password">Password</label>
+                  <input class="form-control" id="password" name="password" type="password">
+                  <p class="text-danger" th:errors="*{password}"
+                    th:if="${#fields.hasErrors('password')}"></p>
+              </div>
+              <div class="mb-3">
+                <input type="submit" class="btn btn-outline-success" value="Save">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>  
 
 
     <script src="https://kit.fontawesome.com/25f837f771.js" crossorigin="anonymous"></script>
