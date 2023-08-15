@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 
 /*
  * service implementaion for managing users
@@ -48,6 +49,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void updateUsers(List<User> users) {
+        userRepository.saveAll(users);
+    }
+
+    @Override
+    public String updatePassword(User user, String currentPassword, String newPassword) {
+        if (passwordEncoder.encode(currentPassword) == user.getPassword()){
+
+            user.setPassword(passwordEncoder.encode(newPassword));
+
+            userRepository.save(user);
+
+            return "Update Successful";
+        }else {
+            return "Current Password incorrect";
+        }
     }
 }
 
