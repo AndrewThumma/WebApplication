@@ -1,7 +1,5 @@
 package org.cvschools.WebApplication.controllers;
 
-import java.util.List;
-
 import org.cvschools.WebApplication.entities.User;
 import org.cvschools.WebApplication.models.ProfileForm;
 import org.cvschools.WebApplication.models.UserDto;
