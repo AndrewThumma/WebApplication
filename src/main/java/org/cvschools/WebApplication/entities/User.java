@@ -19,13 +19,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "Users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INT", nullable = false, name = "id")
-    private Long id;
+    private Integer id;
 
     @Column(columnDefinition = "nvarchar(255)", nullable = false, name = "name")
     private String name;
@@ -36,7 +36,7 @@ public class User {
     @Column(columnDefinition = "nvarchar(25)", nullable = false, name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},

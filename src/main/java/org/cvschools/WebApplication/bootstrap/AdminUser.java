@@ -27,6 +27,16 @@ public class AdminUser implements CommandLineRunner{
     @Override
     public void run(String... args) throws Exception {
         
+        Role role1 = roleRepository.findByName(TbConstants.Roles.BUSINESS);
+        if (role1 == null){
+            roleRepository.save(new Role(TbConstants.Roles.BUSINESS));
+        }
+
+        Role role2 = roleRepository.findByName(TbConstants.Roles.USER);
+        if (role2 == null){
+            roleRepository.save(new Role(TbConstants.Roles.USER));
+        }
+        
         User existingUser = userRepo.findByEmail("ajthumma@cvschools.org");
         
         if(existingUser != null) {
@@ -35,7 +45,7 @@ public class AdminUser implements CommandLineRunner{
             Role role = roleRepository.findByName(TbConstants.Roles.ADMIN);
             
             if (role == null) {
-                role = roleRepository.save(new Role(TbConstants.Roles.USER));
+                role = roleRepository.save(new Role(TbConstants.Roles.ADMIN));
             }
                         
             User user = new User("Andrew Thumma", "ajthumma@cvschools.org", passwordEncoder.encode("J@smine56"), Arrays.asList(role));
