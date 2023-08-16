@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /*
  * class for user information used with spring security
@@ -43,12 +45,23 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles = new ArrayList<>();
+    //private Set<Role> roles = new HashSet<>();
 
     public User(String name, String email, String password, List<Role> roles) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.roles = roles;
+    }
+
+    public List<String> getRoleNames(){
+        List<String> roleNames = new ArrayList<>();
+
+        for (Role role : roles) {
+            roleNames.add(role.getName());
+        }
+
+        return roleNames;
     }
 }
 

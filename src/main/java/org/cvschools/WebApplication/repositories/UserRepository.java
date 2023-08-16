@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * repository class used to manage users in database
  */
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByEmail(String email);
-
-    User deleteById(Integer id);
+public interface UserRepository extends JpaRepository<User, Integer> {
+    User findByEmail(String email);    
 }

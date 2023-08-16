@@ -2,6 +2,7 @@ package org.cvschools.WebApplication.services;
 
 import java.util.List;
 
+import org.cvschools.WebApplication.entities.Role;
 import org.cvschools.WebApplication.entities.User;
 import org.cvschools.WebApplication.models.UserDto;
 
@@ -18,4 +19,6 @@ public interface UserService {
     String updatePassword(User user, String currentPassword, String newPassword);
 
     void deleteUser(Integer id);
+
+    List<Role> findAllRoles();
 }

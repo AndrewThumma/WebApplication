@@ -1,7 +1,10 @@
 package org.cvschools.WebApplication.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.cvschools.WebApplication.entities.Role;
 import org.cvschools.WebApplication.entities.User;
-import org.cvschools.WebApplication.models.ProfileForm;
 import org.cvschools.WebApplication.models.UserDto;
 import org.cvschools.WebApplication.models.UserForm;
 import org.cvschools.WebApplication.services.UserService;
@@ -11,8 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
@@ -30,7 +33,12 @@ public class UserController {
         form.setUsers(userService.findAll());
 
         UserDto user = new UserDto();
+
+        List<Role> roles = new ArrayList<>();
+        roles.addAll(userService.findAllRoles());
         
+        model.addAttribute("message", null);
+        model.addAttribute("roles", roles);
         model.addAttribute("user", user);
         model.addAttribute("form", form);
         
@@ -38,21 +46,19 @@ public class UserController {
     }
 
     @GetMapping("/deleteUser/{id}")
-    public String deleteUser(Model model, @RequestParam Integer id){
+    public String deleteUser(Model model, @PathVariable Integer id, @ModelAttribute UserForm form){
         userService.deleteUser(id);
 
-        return "users";
-    }
-
-    @PostMapping("/createUser")
-    public String createUser(Model model, @ModelAttribute UserDto userDto, @ModelAttribute UserForm form){
-        userService.saveUser(userDto);
-
         form.setUsers(userService.findAll());
-        
+
+        UserDto user = new UserDto();
+        List<Role> roles = new ArrayList<>();
+        roles.addAll(userService.findAllRoles());
+
+        model.addAttribute("message", "User Deleted!");
+        model.addAttribute("roles", roles);
+        model.addAttribute("user", user);
         model.addAttribute("form", form);
-        model.addAttribute("userDto", new UserDto());
-        model.addAttribute("message", "Success");
 
         return "users";
     }
@@ -66,7 +72,7 @@ public class UserController {
     }
 
     //post mapping to create a new user
-    @PostMapping("/register")
+    @PostMapping("/users")
     public String registration(
             @Valid @ModelAttribute("user") UserDto userDto,
             BindingResult result,
@@ -83,14 +89,24 @@ public class UserController {
 
         //check for other errors and display as needed
         if (result.hasErrors()) {
+            form.setUsers(userService.findAll());
+
+            model.addAttribute("message", result.getAllErrors().toString());
+            model.addAttribute("form", form);
             model.addAttribute("user", userDto);
-            return "/register";
+            return "users";
         }
 
         userService.saveUser(userDto);
 
         form.setUsers(userService.findAll());
 
+        List<Role> roles = new ArrayList<>();
+        roles.addAll(userService.findAllRoles());
+
+        model.addAttribute("user", new UserDto());
+        model.addAttribute("roles", roles);
+        model.addAttribute("message", "User Created Successfully!");
         model.addAttribute("form", form);
 
         return "users";

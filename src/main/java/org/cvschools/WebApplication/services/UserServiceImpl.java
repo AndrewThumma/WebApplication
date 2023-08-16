@@ -32,11 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(UserDto userDto) {
-        
-        //get role from roles database or create it if not exists
-        Role role = roleRepository.findByName(TbConstants.Roles.USER);
-        if (role == null)
-            role = roleRepository.save(new Role(TbConstants.Roles.USER));
+       
+        //get role
+        Role role = roleRepository.findByName(userDto.getRole());
 
         //create new user
         User user = new User(userDto.getName(), userDto.getEmail(), passwordEncoder.encode(userDto.getPassword()),
@@ -78,6 +76,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Role> findAllRoles() {
+        return roleRepository.findAll();
     }
 }
 

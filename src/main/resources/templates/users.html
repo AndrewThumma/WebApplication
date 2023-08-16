@@ -30,8 +30,7 @@
     <h1>User Management</h1>
  
     <div class="p-2 gap-11 col-md-1">
-      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUser"><i class="fa-solid fa-user-plus"></i> Add User</button>
-      <a th:href="@{/register}" class="btn btn-success"><i class="fa-solid fa-user-plus"></i> Add User</a>
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUser"><i class="fa-solid fa-user-plus"></i> Add User</button>      
     </div>
 
     
@@ -55,14 +54,14 @@
               <input hidden th:name="|users[${itemStat.index}].email|" th:value="${user.getEmail()}">
             </td>
             <td>
-              <label><span th:text="${user.getRoles()}"></span></label>
+              <label><span th:text="${user.getRoleNames()}"></span></label>
               <input hidden th:name="|users[${itemStat.index}].roles|" th:value="${user.getRoles()}">
             </td>                          
             <td>
               <!--Actions-->
               <a th:href="@{/resetPassword/{id}(id=${user.getId()})}" title="Reset Password"><i class="fa-solid fa-key"></i></a>
               <a th:href="@{/changeRoles/{id}(id=${user.getId()})}" title="Edit User"><i class="fa-solid fa-pen-to-square"></i></a>
-              <a th:href="@{/deleteUser/{id}(id=${user.getId()})}" title="Delete User" style="color:red;"><i class="fa-solid fa-trash"></i></a>                
+              <a th:href="@{/deleteUser/{id}(id=${user.getId()})}" title="Delete User" style="color:red;"><i class="fa-solid fa-trash"></i></a>
             </td>              
           </tr>
         </div>
@@ -79,7 +78,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form th:action="@{/register}" method="post" action="#" th:object="${user}">
+            <!--new user form-->
+            <form th:action="@{/users}" method="post" action="#" th:object="${user}">
               <div class="mb-3">
                 <label class="form-label" for="name">Name</label>
                 <input class="form-control" id="name" name="name" type="text">
@@ -97,6 +97,13 @@
                   <input class="form-control" id="password" name="password" type="password">
                   <p class="text-danger" th:errors="*{password}"
                     th:if="${#fields.hasErrors('password')}"></p>
+              </div>
+              <div class="mb-3">
+                <!--role enumeration-->
+                <label class="col-sm-2 col-form-label" for="role">Role</label>
+                <select class="form-control" name="role" id="role">
+                  <option th:each="role : ${roles}" th:text="${role.name}" th:value="${role.getName()}"></option>
+                </select>
               </div>
               <div class="mb-3">
                 <input type="submit" class="btn btn-outline-success" value="Save">
