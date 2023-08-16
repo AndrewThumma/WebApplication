@@ -6,7 +6,6 @@ import org.cvschools.WebApplication.entities.User;
 import org.cvschools.WebApplication.models.UserDto;
 import org.cvschools.WebApplication.repositories.RoleRepository;
 import org.cvschools.WebApplication.repositories.UserRepository;
-import org.cvschools.WebApplication.utilities.TbConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

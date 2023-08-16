@@ -2,7 +2,6 @@ package org.cvschools.WebApplication.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.cvschools.WebApplication.Exceptions.NotFoundException;
 import org.cvschools.WebApplication.entities.Role;
