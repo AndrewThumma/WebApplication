@@ -2,7 +2,9 @@ package org.cvschools.WebApplication.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.cvschools.WebApplication.Exceptions.NotFoundException;
 import org.cvschools.WebApplication.entities.Role;
 import org.cvschools.WebApplication.entities.User;
 import org.cvschools.WebApplication.models.UserDto;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
@@ -103,6 +106,22 @@ public class UserController {
 
         List<Role> roles = new ArrayList<>();
         roles.addAll(userService.findAllRoles());
+
+        model.addAttribute("user", new UserDto());
+        model.addAttribute("roles", roles);
+        model.addAttribute("message", "User Created Successfully!");
+        model.addAttribute("form", form);
+
+        return "users";
+    }
+
+    @GetMapping("/resetPassword/{id}")
+    public String resetPassword(Model model, @PathVariable Integer id, @RequestParam String newPassword, 
+                                @ModelAttribute UserForm form,
+                                @ModelAttribute List<Role> roles){
+        User user = userService.findById(id).orElseThrow(NotFoundException::new);
+
+        userService.updatePassword(user, newPassword);
 
         model.addAttribute("user", new UserDto());
         model.addAttribute("roles", roles);

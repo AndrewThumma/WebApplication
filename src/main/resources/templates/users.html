@@ -59,16 +59,38 @@
             </td>                          
             <td>
               <!--Actions-->
-              <a th:href="@{/resetPassword/{id}(id=${user.getId()})}" title="Reset Password"><i class="fa-solid fa-key"></i></a>
+              <a data-toggle="modal" data-target="#resetPassword" th:attr="data-user-id=''+${user.getId()}+'', data-target='#resetPassword'+${user.getId()}" title="Reset Password"><i class="fa-solid fa-key"></i></a>
               <a th:href="@{/changeRoles/{id}(id=${user.getId()})}" title="Edit User"><i class="fa-solid fa-pen-to-square"></i></a>
               <a th:href="@{/deleteUser/{id}(id=${user.getId()})}" title="Delete User" style="color:red;"><i class="fa-solid fa-trash"></i></a>
-            </td>              
+            </td>
+            
+                <!--password reset modal-->
+                <!-- Modal for each user-->
+                <div th:id="resetPassword+${user.getId()}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Reset Password</h3>
+                  </div>
+                  <div class="modal-body">
+                    <!--create form here to reset password-->
+                    <form th:action="@/resetPassword/{id}(id=${user.getId()})" method="get">
+                      <input type="password" id="newPassword" name="newPassword">                    
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <input type="submit" class="btn btn-outline-success">Save changes</button>
+                  </form>
+                  </div>
+                </div>
+            
           </tr>
         </div>
       </table>
     </div>    
     
-    
+
+
+
     <!-- New User Modal -->
     <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -102,6 +124,7 @@
                 <!--role enumeration-->
                 <label class="col-sm-2 col-form-label" for="role">Role</label>
                 <select class="form-control" name="role" id="role">
+                  <option th:text="" selected></option>
                   <option th:each="role : ${roles}" th:text="${role.name}" th:value="${role.getName()}"></option>
                 </select>
               </div>

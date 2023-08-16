@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /*
  * service implementaion for managing users
@@ -81,6 +82,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Role> findAllRoles() {
         return roleRepository.findAll();
+    }
+
+    @Override
+    public void updatePassword(User user, String newPassword) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+
+            userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findById(Integer id) {
+        return Optional.ofNullable(userRepository.findById(id).orElse(null));
     }
 }
 

@@ -55,6 +55,7 @@ public class BusinessController {
         }
         
 
+        model.addAttribute("message", "");
         model.addAttribute("uploadForm", new UploadForm());
         model.addAttribute("fileUploaded", fileUploaded);
         model.addAttribute("downloadReady", downloadReady);
@@ -92,7 +93,7 @@ public class BusinessController {
                 fileUploaded = false;
                 downloadReady = false;        
                 
-                model.addAttribute("error", "Could Not Upload the File");
+                model.addAttribute("message", "Could Not Upload the File" + e.getMessage());
                 model.addAttribute("fileUploaded", fileUploaded);
                 model.addAttribute("downloadReady", downloadReady);
                 
@@ -104,7 +105,7 @@ public class BusinessController {
         fileUploaded = false; 
         downloadReady = false;
 
-        model.addAttribute("error", "Please upload an excel file!");
+        model.addAttribute("message", "Please upload an excel file!");
         model.addAttribute("fileUploaded", fileUploaded);
         model.addAttribute("downloadReady", downloadReady);
         
@@ -140,6 +141,7 @@ public class BusinessController {
         service.updateReportableTerminations(form.getReportableTerminations());
 
 
+        model.addAttribute("message", "");
         model.addAttribute("uploadForm", new UploadForm());
         model.addAttribute("fileUploaded", fileUploaded);      
         model.addAttribute("downloadReady", downloadReady);  
@@ -226,6 +228,7 @@ public class BusinessController {
         //display download option
         downloadReady = true;
 
+        model.addAttribute("message", "");
         model.addAttribute("fileUploaded", fileUploaded);
         model.addAttribute("downloadReady", downloadReady);
         model.addAttribute("uploadForm", new UploadForm());
@@ -270,14 +273,17 @@ public class BusinessController {
     @GetMapping("/403b/clear")
     public String reset(Model model){
         fileUploaded = false;
+        downloadReady = false;
 
         service.clearActiveStaff();
         service.clearExportData();
         service.clearImportedData();
         service.clearReportableTerminations();
 
+        model.addAttribute("message", "");
         model.addAttribute("uploadForm", new UploadForm());
         model.addAttribute("fileUploaded", fileUploaded);
+        model.addAttribute("downloadReady", downloadReady);
 
         return "403b";
     }
