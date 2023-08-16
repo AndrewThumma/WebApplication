@@ -115,17 +115,21 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping("/resetPassword/{id}")
-    public String resetPassword(Model model, @PathVariable Integer id, @RequestParam String newPassword, 
-                                @ModelAttribute UserForm form,
-                                @ModelAttribute List<Role> roles){
+    @PostMapping("/resetPassword/{id}")
+    public String resetPassword(Model model, @PathVariable Integer id, @RequestParam String newPassword){
         User user = userService.findById(id).orElseThrow(NotFoundException::new);
 
         userService.updatePassword(user, newPassword);
 
+        UserForm form = new UserForm();
+        form.setUsers(userService.findAll());
+
+        List<Role> roles = new ArrayList<>();
+        roles.addAll(userService.findAllRoles());
+
         model.addAttribute("user", new UserDto());
         model.addAttribute("roles", roles);
-        model.addAttribute("message", "User Created Successfully!");
+        model.addAttribute("message", "Password updated Successfully!");
         model.addAttribute("form", form);
 
         return "users";
