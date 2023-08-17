@@ -20,6 +20,11 @@
               <li class="nav-item">
                 <a class="nav-link" href="/403b">Business Processes</a>
               </li>
+              <security:authorize access="hasAnyRole('Admin')">
+                <li class="nav-item">
+                  <a class="nav-link" href="/users">Users</a>
+                </li>
+              </security:authorize>              
             </ul> 
             <div sec:authorize="isAuthenticated()">
               <div class="nav-item dropdown">
