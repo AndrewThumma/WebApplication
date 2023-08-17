@@ -151,10 +151,10 @@ public class UserController {
      */
 
     @PostMapping("/editUser")
-    public String editUser(Model model, @ModelAttribute String roleName, 
-                            @ModelAttribute String name,
-                            @ModelAttribute String email,
-                            @ModelAttribute Integer id){                
+    public String editUser(Model model, @RequestParam String roleName, 
+                            @RequestParam String name,
+                            @RequestParam String email,
+                            @RequestParam Integer id){                
 
         userService.updateUser(id, name, email, roleName);
 
