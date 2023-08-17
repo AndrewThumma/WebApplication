@@ -4,15 +4,12 @@ package org.cvschools.WebApplication.services;
 import org.cvschools.WebApplication.entities.User;
 import org.cvschools.WebApplication.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-//import com.snhu.Flights.models.User;
-//import com.snhu.Flights.repositories.UserRepository;
 
 import java.util.stream.Collectors;
 
