@@ -135,14 +135,43 @@ public class UserController {
         return "editUser";
     }
 
-    @PostMapping("/editUser/{id}")
-    public String editUser(Model model, @PathVariable Integer id, @ModelAttribute String roleName){        
-        userService.setUserRole(id, roleName);
+    /*
+    @PostMapping("/editUser")
+    public String editUser(Model model, @ModelAttribute String roleName, @ModelAttribute User user){        
+        
+        
+        userService.updateUser(user, roleName);
+        
+        User updatedUser = userService.findUserByEmail(user.getEmail());
 
-        User user = userService.findById(id).orElseThrow(NotFoundException::new);
-
-        model.addAttribute("user", user);
+        model.addAttribute("user", updatedUser);
 
         return "editUser";
     }
+     */
+
+    @PostMapping("/editUser")
+    public String editUser(Model model, @ModelAttribute String roleName, 
+                            @ModelAttribute String name,
+                            @ModelAttribute String email,
+                            @ModelAttribute Integer id){                
+
+        userService.updateUser(id, name, email, roleName);
+
+        User user = userService.findUserByEmail(email);
+
+        UserForm form = new UserForm();
+        form.setUsers(userService.findAll());
+
+        List<Role> roles = new ArrayList<>();
+        roles.addAll(userService.findAllRoles());
+        
+        model.addAttribute("user", new UserDto());
+        model.addAttribute("roles", roles);
+        model.addAttribute("message", "Password updated Successfully!");
+        model.addAttribute("form", form);
+
+        return "users";
+    }
+
 }

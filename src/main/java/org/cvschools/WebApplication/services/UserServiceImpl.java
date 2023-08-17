@@ -109,5 +109,29 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
+    @Override
+    public void updateUser(User user, String roleName) {
+        Role role = roleRepository.findByName(roleName);
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
+
+        user.setRoles(roles);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(Integer id, String name, String email, String roleName) {
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+        Role role = roleRepository.findByName(roleName);
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
+
+        user.setName(name);
+        user.setEmail(email);        
+        user.setRoles(roles);
+
+        userRepository.save(user);
+    }
 }
 

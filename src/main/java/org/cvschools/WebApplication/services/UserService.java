@@ -16,6 +16,10 @@ public interface UserService {
     List<User> findAll();
 
     void updateUsers(List<User> users);
+    
+    void updateUser(User user, String roleName);
+
+    void updateUser(Integer id, String name, String email, String roleName);
 
     String updatePassword(User user, String currentPassword, String newPassword);
     
