@@ -26,4 +26,6 @@ public interface UserService {
     List<Role> findAllRoles();
 
     Optional<User> findById(Integer id);
+
+    void setUserRole(Integer id, String roleName);
 }

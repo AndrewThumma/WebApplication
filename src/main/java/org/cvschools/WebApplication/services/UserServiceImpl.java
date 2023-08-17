@@ -1,6 +1,7 @@
 package org.cvschools.WebApplication.services;
 
 
+import org.cvschools.WebApplication.Exceptions.NotFoundException;
 import org.cvschools.WebApplication.entities.Role;
 import org.cvschools.WebApplication.entities.User;
 import org.cvschools.WebApplication.models.UserDto;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -93,6 +95,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findById(Integer id) {
         return Optional.ofNullable(userRepository.findById(id).orElse(null));
+    }
+
+    @Override
+    public void setUserRole(Integer id, String roleName) {
+        Role role = roleRepository.findByName(roleName);
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
+
+        user.setRoles(roles);
+
+        userRepository.save(user);
     }
 }
 

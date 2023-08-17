@@ -65,14 +65,6 @@ public class UserController {
         return "users";
     }
 
-    //get mapping to display user registration page
-    @GetMapping("/register")
-    public String registrationForm(Model model) {
-        UserDto user = new UserDto();
-        model.addAttribute("user", user);
-        return "register";
-    }
-
     //post mapping to create a new user
     @PostMapping("/users")
     public String registration(
@@ -132,5 +124,25 @@ public class UserController {
         model.addAttribute("form", form);
 
         return "users";
+    }
+
+    @GetMapping("/editUser/{id}")
+    public String getUserToEdit(Model model, @PathVariable Integer id){
+        User user = userService.findById(id).orElseThrow(NotFoundException::new);
+
+        model.addAttribute("user", user);
+
+        return "editUser";
+    }
+
+    @PostMapping("/editUser/{id}")
+    public String editUser(Model model, @PathVariable Integer id, @ModelAttribute String roleName){        
+        userService.setUserRole(id, roleName);
+
+        User user = userService.findById(id).orElseThrow(NotFoundException::new);
+
+        model.addAttribute("user", user);
+
+        return "editUser";
     }
 }
