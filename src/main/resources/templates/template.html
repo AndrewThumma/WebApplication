@@ -32,7 +32,7 @@
                   Welcome <span sec:authentication="name">Username</span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                  <li><a class="dropdown-item" th:href="@{|/profile/${#authentication.name}|}">Profile</a></li>
                   <li><a class="dropdown-item" href="/login?logout">Log out</a></li>                  
                 </ul>
               </div>
