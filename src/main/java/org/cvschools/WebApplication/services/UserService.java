@@ -21,7 +21,7 @@ public interface UserService {
 
     void updateUser(Integer id, String name, String email, String roleName);
 
-    String updatePassword(User user, String currentPassword, String newPassword);
+    String updatePassword(String email, String currentPassword, String newPassword);
     
     void updatePassword(User user, String newPassword);
 

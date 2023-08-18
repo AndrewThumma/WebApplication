@@ -20,11 +20,11 @@
               <li class="nav-item">
                 <a class="nav-link" href="/403b">Business Processes</a>
               </li>
-              <security:authorize access="hasAnyRole('Admin')">
+              <div sec:authorize="hasAnyRole('ADMIN')">
                 <li class="nav-item">
-                  <a class="nav-link" href="/users">Users</a>
+                  <a class="nav-link active" aria-current="page" href="/users">Users</a>
                 </li>
-              </security:authorize>              
+              </div>               
             </ul> 
             <div sec:authorize="isAuthenticated()">
               <div class="nav-item dropdown">
@@ -32,7 +32,7 @@
                   Welcome <span sec:authentication="name">Username</span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                  <li><a class="dropdown-item" th:href="@{|/profile/${#authentication.name}|}">Profile</a></li>
                   <li><a class="dropdown-item" href="/login?logout">Log out</a></li>                  
                 </ul>
               </div>

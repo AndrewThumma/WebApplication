@@ -20,11 +20,11 @@
               <li class="nav-item">
                 <a class="nav-link" href="/403b">Business Processes</a>
               </li>
-              <security:authorize access="hasAnyRole('Admin')">
+              <div sec:authorize="hasAnyRole('ADMIN')">
                 <li class="nav-item">
                   <a class="nav-link active" aria-current="page" href="/users">Users</a>
                 </li>
-              </security:authorize>              
+              </div>              
             </ul> 
             <div sec:authorize="isAuthenticated()">
               <div class="nav-item dropdown">
@@ -78,8 +78,7 @@
             <td>
               <!--Actions-->
               <a data-bs-toggle="modal" th:attr="data-bs-target='#resetPassword'+${user.getId()}" title="Reset Password"><i class="fa-solid fa-key"></i></a>              
-              <a data-bs-toggle="modal" th:attr="data-bs-target='#editUser'+${user.getId()}" title="Edit User"><i class="fa-solid fa-pen-to-square"></i></a>
-              <!--<a th:href="@{/editUser/{id}(id=${user.getId()})}" title="Edit User"><i class="fa-solid fa-pen-to-square"></i></a>-->
+              <a data-bs-toggle="modal" th:attr="data-bs-target='#editUser'+${user.getId()}" title="Edit User"><i class="fa-solid fa-pen-to-square"></i></a>              
               <a th:href="@{/deleteUser/{id}(id=${user.getId()})}" title="Delete User" style="color:red;"><i class="fa-solid fa-trash"></i></a>
             </td>                        
           </tr>

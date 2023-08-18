@@ -65,6 +65,7 @@ public class UserController {
         return "users";
     }
 
+
     //post mapping to create a new user
     @PostMapping("/users")
     public String registration(
@@ -106,6 +107,7 @@ public class UserController {
         return "users";
     }
 
+
     @PostMapping("/resetPassword/{id}")
     public String resetPassword(Model model, @PathVariable Integer id, @RequestParam String newPassword){
         User user = userService.findById(id).orElseThrow(NotFoundException::new);
@@ -126,29 +128,6 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping("/editUser/{id}")
-    public String getUserToEdit(Model model, @PathVariable Integer id){
-        User user = userService.findById(id).orElseThrow(NotFoundException::new);
-
-        model.addAttribute("user", user);
-
-        return "editUser";
-    }
-
-    /*
-    @PostMapping("/editUser")
-    public String editUser(Model model, @ModelAttribute String roleName, @ModelAttribute User user){        
-        
-        
-        userService.updateUser(user, roleName);
-        
-        User updatedUser = userService.findUserByEmail(user.getEmail());
-
-        model.addAttribute("user", updatedUser);
-
-        return "editUser";
-    }
-     */
 
     @PostMapping("/editUser")
     public String editUser(Model model, @RequestParam String roleName, 
@@ -156,9 +135,7 @@ public class UserController {
                             @RequestParam String email,
                             @RequestParam Integer id){                
 
-        userService.updateUser(id, name, email, roleName);
-
-        User user = userService.findUserByEmail(email);
+        userService.updateUser(id, name, email, roleName);        
 
         UserForm form = new UserForm();
         form.setUsers(userService.findAll());
@@ -168,7 +145,7 @@ public class UserController {
         
         model.addAttribute("user", new UserDto());
         model.addAttribute("roles", roles);
-        model.addAttribute("message", "Password updated Successfully!");
+        model.addAttribute("message", "User updated Successfully!");
         model.addAttribute("form", form);
 
         return "users";
