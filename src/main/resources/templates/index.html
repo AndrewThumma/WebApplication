@@ -17,12 +17,17 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/">Home</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/403b">Business Processes</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" role="button" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                  Business Processes
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/403b">403(b) File Converter</a></li>
+                </ul>
               </li>
               <div sec:authorize="hasAnyRole('ADMIN')">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="/users">Users</a>
+                  <a class="nav-link" href="/users">Users</a>
                 </li>
               </div>               
             </ul> 
@@ -46,9 +51,28 @@
   
   
   <body>
-    <h1>Index</h1>
-    <h2 th:text="${pass}"></h2>
-    <h2 th:text="${pass2}"></h2>
+    <section class="container">
+      <div class="container">
+        <div class="container">
+          <!--Page title-->
+          <div>
+            <h1 class="text-center">Cumberland Valley Custom Web Application</h1>
+          </div>
+        </div>
+        
+        <div class="container gap-4 col-md-4 pt-2">
+          <!--Form used to upload file to server and load into SQL-->
+          <a href="/403b">
+            <div class="card mb-2 p-2" >                      
+              <span class="text-center">File Upload Converter</span>            
+            </div>
+          </a>
+        </div>
+      </div>      
+    </section>
+    
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   </body>
 </html>
