@@ -5,12 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.2</version>
+		<version>3.1.2</version>		
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.cvschools</groupId>
 	<artifactId>WebApplication</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>WebApplication</name>
 	<description>Education and HR Support Application</description>
 	<properties>
@@ -22,6 +23,11 @@
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
 			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
             <groupId>org.mapstruct</groupId>
@@ -85,6 +91,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>root</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
